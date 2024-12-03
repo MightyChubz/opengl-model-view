@@ -3,6 +3,7 @@
 #include <cmath>
 #include <string_view>
 #include <strings.h>
+#include <vector>
 
 #include "SDL.h"
 #include "SDL_events.h"
@@ -17,10 +18,12 @@
 #include "glm/ext/matrix_clip_space.hpp"
 #include "glm/ext/matrix_float4x4.hpp"
 #include "glm/ext/matrix_transform.hpp"
+#include "glm/ext/vector_float2.hpp"
 #include "glm/ext/vector_float3.hpp"
 #include "glm/fwd.hpp"
 #include "glm/geometric.hpp"
 #include "glm/trigonometric.hpp"
+#include "input_manager.hpp"
 #include "mesh.hpp"
 #include "shader.hpp"
 #include "stddefs.hpp"
@@ -77,34 +80,33 @@ int main(int argc, char **argv)
     glViewport(0, 0, width, height);
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-    float     yaw = 0.0f, pitch = 0.0f;
-    u64       then      = SDL_GetTicks64();
-    f64       elapsed   = 0;
-    f64       msPerTick = 1000.0 / 60.0;
-    bool      running   = true;
-    SDL_Event event;
+    std::vector<SDL_Scancode> keys = {SDL_SCANCODE_W, SDL_SCANCODE_A, SDL_SCANCODE_S, SDL_SCANCODE_D};
+    InputManager              input_manager(keys);
+    float                     yaw = 0.0f, pitch = 0.0f;
+    u64                       then      = SDL_GetTicks64();
+    f64                       elapsed   = 0;
+    f64                       msPerTick = 1000.0 / 60.0;
+    bool                      running   = true;
+    SDL_Event                 event;
     while (running) {
         u64 now = SDL_GetTicks64();
         elapsed += static_cast<f32>(now - then) / msPerTick;
         then = now;
 
         while (elapsed >= 1.0) {
+            input_manager.update_states();
             while (SDL_PollEvent(&event)) {
                 if (event.type == SDL_QUIT ||
                     (event.type == SDL_KEYDOWN && event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)) {
                     running = false;
                 }
 
-                switch (event.type) {
-                case SDL_MOUSEMOTION: {
-                    float       mouse_x     = event.motion.xrel;
-                    float       mouse_y     = -event.motion.yrel;
-                    const float sensitivity = 0.1f;
-                    mouse_x *= sensitivity;
-                    mouse_y *= sensitivity;
+                input_manager.update(event);
 
-                    yaw += mouse_x;
-                    pitch += mouse_y;
+                glm::vec2 relative = input_manager.mouse_relative();
+                if (input_manager.is_mouse_moving()) {
+                    yaw += relative.x;
+                    pitch += relative.y;
                     if (pitch > 89.0f) pitch = 89.0f;
                     if (pitch < -89.0f) pitch = 89.0f;
 
@@ -114,16 +116,14 @@ int main(int argc, char **argv)
                     direction.z  = std::sin(glm::radians(yaw)) * std::cos(glm::radians(pitch));
                     camera_front = glm::normalize(direction);
                 }
-                }
             }
 
-            const float  camera_speed = 2.5f * elapsed / 100;
-            const Uint8 *keystate     = SDL_GetKeyboardState(nullptr);
-            if (keystate[SDL_SCANCODE_W]) camera_position += camera_speed * camera_front;
-            if (keystate[SDL_SCANCODE_S]) camera_position -= camera_speed * camera_front;
-            if (keystate[SDL_SCANCODE_A])
+            const float camera_speed = 2.5f * elapsed / 100;
+            if (input_manager.is_held(SDL_SCANCODE_W)) camera_position += camera_speed * camera_front;
+            if (input_manager.is_held(SDL_SCANCODE_S)) camera_position -= camera_speed * camera_front;
+            if (input_manager.is_held(SDL_SCANCODE_A))
                 camera_position -= glm::normalize(glm::cross(camera_front, camera_up)) * camera_speed;
-            if (keystate[SDL_SCANCODE_D])
+            if (input_manager.is_held(SDL_SCANCODE_D))
                 camera_position += glm::normalize(glm::cross(camera_front, camera_up)) * camera_speed;
 
             model = glm::rotate(model, static_cast<float>(elapsed / 100), glm::vec3(0.5, 1.0, 0.0));
