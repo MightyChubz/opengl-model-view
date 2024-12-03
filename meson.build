@@ -15,7 +15,11 @@ deps = [gl_dep, glew_dep, sdl2_dep, sdl2_image_dep, glm_dep]
 
 inc = include_directories('include')
 
-srcs = ['src/main.cpp', 'src/shader.cpp']
+srcs = [
+  'src/main.cpp',
+  'src/shader.cpp',
+  'src/texture.cpp',
+]
 
 exe = executable(
   'opengl_tester',
