@@ -1,5 +1,4 @@
 #include "mesh.hpp"
-#include "glm/ext/matrix_float4x4.hpp"
 #include "mesh_loader.hpp"
 #include <string_view>
 
