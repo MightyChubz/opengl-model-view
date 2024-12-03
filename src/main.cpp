@@ -51,12 +51,13 @@ int main(int argc, char **argv)
 
     AssetRegistry &registry = AssetRegistry::get_instance();
     registry.add_shader("default", {"shaders/vertex.vert.glsl", "shaders/fragment.frag.glsl"});
-    registry.add_texture("test2", {"imgs/test2.png"});
+    registry.add_texture("test", {"imgs/test.png"});
     registry.add_mesh("sphere", {"models/sphere.obj"});
     registry.add_mesh("cube", {"models/cube.obj"});
+
     const Shader  &shader          = registry.get_shader("default");
-    const Texture &texture         = registry.get_texture("test2");
     const Mesh    &mesh            = registry.get_mesh("cube");
+    const Texture &texture         = registry.get_texture("test");
 
     // Camera
     glm::vec3      camera_position = glm::vec3(0.0f, 0.0f, 3.0f);
