@@ -1,6 +1,7 @@
 #ifndef TEXTURE_HPP
 #define TEXTURE_HPP
 
+#include <cstddef>
 #include <memory>
 #include <string_view>
 
@@ -10,6 +11,7 @@
 class Texture final
 {
     std::shared_ptr<u32> texture{nullptr};
+
     static void          destruct_texture(u32 *texture)
     {
         glDeleteTextures(1, texture);
@@ -22,7 +24,7 @@ class Texture final
     Texture(const std::string_view path);
     ~Texture() = default;
 
-    void use(GLenum texture_slot);
+    void use(size_t slot);
 };
 
 #endif

@@ -236,7 +236,7 @@ int main(int argc, char **argv)
         glUniformMatrix4fv(view_location, 1, GL_FALSE, glm::value_ptr(view));
         glUniformMatrix4fv(proj_location, 1, GL_FALSE, glm::value_ptr(proj));
 
-        texture.use(GL_TEXTURE0);
+        texture.use(0);
         glBindVertexArray(vao);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
         glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
