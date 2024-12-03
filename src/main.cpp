@@ -130,14 +130,9 @@ int main(int argc, char **argv)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         shader.use();
-
-        u32 model_location = glGetUniformLocation(*shader.id, "model");
-        u32 view_location  = glGetUniformLocation(*shader.id, "view");
-        u32 proj_location  = glGetUniformLocation(*shader.id, "projection");
-        glUniformMatrix4fv(model_location, 1, GL_FALSE, glm::value_ptr(model));
-        glUniformMatrix4fv(view_location, 1, GL_FALSE, glm::value_ptr(view));
-        glUniformMatrix4fv(proj_location, 1, GL_FALSE, glm::value_ptr(proj));
-
+        shader.set("model", model);
+        shader.set("view", view);
+        shader.set("projection", proj);
         texture.use(0);
         mesh.render();
 
