@@ -1,0 +1,23 @@
+ColumnLimit: 119
+UseTab: Always
+TabWidth: 4
+IndentWidth: 4
+NamespaceIndentation: All
+BreakBeforeBraces: Linux
+AlwaysBreakAfterReturnType: None
+PenaltyReturnTypeOnItsOwnLine: 9999
+PenaltyBreakBeforeFirstCallParameter: 9999
+PenaltyBreakAssignment: 9999
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: WithoutElse
+BinPackArguments: false
+BinPackParameters: false
+
+# Alignment code
+AlignConsecutiveDeclarations: AcrossEmptyLinesAndComments
+AlignConsecutiveAssignments: AcrossEmptyLinesAndComments
+AlignConsecutiveBitFields: AcrossEmptyLinesAndComments
+AlignTrailingComments: true
+AlignAfterOpenBracket: Align
+AlignOperands: Align
+PointerAlignment: Right

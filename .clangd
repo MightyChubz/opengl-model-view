@@ -1,0 +1,9 @@
+InlayHints:
+  Enabled: true
+  ParameterNames: false
+  DeducedTypes: true
+  Designators: false
+
+CompileFlags:
+  Add: [-std=c++23]
+  CompilationDatabase: build/debug
