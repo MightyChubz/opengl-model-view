@@ -22,7 +22,7 @@ class Shader
 
     Shader(const std::string_view vertex_path, const std::string_view fragment_path);
 
-    void                       use();
+    void                       use() const;
 
     template <typename T> void set(const std::string_view name, T value) const
     {

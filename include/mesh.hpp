@@ -27,7 +27,7 @@ class Mesh
 
   public:
     Mesh(const std::string_view path);
-    void render();
+    void render() const;
 };
 
 #endif

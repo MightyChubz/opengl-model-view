@@ -25,7 +25,7 @@ class Texture final
     Texture(const std::string_view path);
     ~Texture() = default;
 
-    void use(size_t slot);
+    void use(size_t slot) const;
 };
 
 #endif
