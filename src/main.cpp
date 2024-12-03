@@ -1,22 +1,16 @@
 #include <GL/glew.h>
 #include <GL/glu.h>
 #include <cmath>
-#include <cstddef>
-#include <functional>
 #include <string_view>
 #include <strings.h>
-#include <unordered_map>
-#include <vector>
 
 #include "SDL.h"
 #include "SDL_events.h"
 #include "SDL_image.h"
 #include "SDL_keyboard.h"
-#include "SDL_log.h"
 #include "SDL_mouse.h"
 #include "SDL_scancode.h"
 #include "SDL_stdinc.h"
-#include "SDL_surface.h"
 #include "SDL_timer.h"
 #include "SDL_video.h"
 #include "glm/ext/matrix_clip_space.hpp"
@@ -27,7 +21,7 @@
 #include "glm/geometric.hpp"
 #include "glm/gtc/type_ptr.hpp"
 #include "glm/trigonometric.hpp"
-#include "rapidobj.hpp"
+#include "mesh.hpp"
 #include "shader.hpp"
 #include "stddefs.hpp"
 #include "texture.hpp"
@@ -55,73 +49,9 @@ int main(int argc, char **argv)
     glewInit();
     glEnable(GL_DEPTH_TEST);
 
-    Shader           shader("shaders/vertex.vert.glsl", "shaders/fragment.frag.glsl");
-
-    rapidobj::Result data = rapidobj::ParseFile("models/sphere.obj");
-
-    SDL_Log("Loaded model: %s", "models/sphere.obj");
-    SDL_Log("Total indices: %zu", data.shapes.front().mesh.indices.size());
-    SDL_Log("Total positions: %zu", data.attributes.positions.size());
-    SDL_Log("Total texcoords: %zu", data.attributes.texcoords.size());
-
-    i32                             index_offset = 0;
-    std::vector<u32>                indices;
-    std::vector<Vertex>             vertices;
-    std::unordered_map<Vertex, u32> verts;
-    for (const auto &faces : data.shapes.front().mesh.num_face_vertices) {
-        for (int i = 0; i < faces; ++i) {
-            rapidobj::Index idx = data.shapes.front().mesh.indices[index_offset + i];
-            Vertex          vertex;
-            vertex.vertice.x  = data.attributes.positions[idx.position_index * 3];
-            vertex.vertice.y  = data.attributes.positions[idx.position_index * 3 + 1];
-            vertex.vertice.z  = data.attributes.positions[idx.position_index * 3 + 2];
-            vertex.texcoord.x = data.attributes.texcoords[idx.texcoord_index * 2];
-            vertex.texcoord.y = data.attributes.texcoords[idx.texcoord_index * 2 + 1];
-
-            if (!verts.count(vertex)) {
-                vertices.push_back(vertex);
-                verts[vertex] = vertices.size() - 1;
-            }
-
-            indices.push_back(verts[vertex]);
-        }
-
-        index_offset += faces;
-    }
-
-    SDL_Log("Map size: %zu", verts.size());
-    SDL_Log("Vertices: %zu", vertices.size());
-    SDL_Log("Indices: %zu", indices.size());
-
-    u32 vao, vbo, ebo;
-    glGenVertexArrays(1, &vao);
-    glGenBuffers(1, &vbo);
-    glGenBuffers(1, &ebo);
-
-    glBindVertexArray(vao);
-
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_STATIC_DRAW);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(u32), indices.data(), GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), static_cast<void *>(0));
-    glEnableVertexAttribArray(0);
-
-    glVertexAttribPointer(1,
-                          2,
-                          GL_FLOAT,
-                          GL_FALSE,
-                          sizeof(Vertex),
-                          reinterpret_cast<void *>(offsetof(Vertex, texcoord)));
-    glEnableVertexAttribArray(1);
-
-    glBindVertexArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    // Texture
-    Texture   texture("imgs/test.png");
+    Shader    shader("shaders/vertex.vert.glsl", "shaders/fragment.frag.glsl");
+    Mesh      mesh("models/sphere.obj");
+    Texture   texture("imgs/test2.png");
 
     // Camera
     glm::vec3 camera_position = glm::vec3(0.0f, 0.0f, 3.0f);
@@ -209,19 +139,11 @@ int main(int argc, char **argv)
         glUniformMatrix4fv(proj_location, 1, GL_FALSE, glm::value_ptr(proj));
 
         texture.use(0);
-        glBindVertexArray(vao);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-        glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
-        glBindVertexArray(0);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        mesh.render();
 
         SDL_GL_SwapWindow(window);
         SDL_Delay(1);
     }
-
-    glDeleteVertexArrays(1, &vao);
-    glDeleteBuffers(1, &vbo);
-    glDeleteBuffers(1, &ebo);
 
     SDL_GL_DeleteContext(context);
     SDL_DestroyWindow(window);
