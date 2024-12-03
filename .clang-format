@@ -10,6 +10,7 @@ PenaltyBreakBeforeFirstCallParameter: 9999
 PenaltyBreakAssignment: 9999
 AllowShortFunctionsOnASingleLine: None
 AllowShortIfStatementsOnASingleLine: WithoutElse
+AlwaysBreakTemplateDeclarations: Yes
 BinPackArguments: false
 BinPackParameters: false
 

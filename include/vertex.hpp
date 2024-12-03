@@ -22,7 +22,8 @@ struct Vertex {
     }
 };
 
-template <> struct std::hash<Vertex> {
+template <>
+struct std::hash<Vertex> {
     size_t operator()(const Vertex &v) const noexcept
     {
         size_t h1 = std::hash<float>{}(v.vertice.x);

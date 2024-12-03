@@ -22,9 +22,10 @@ class Shader
     Shader() = default;
     Shader(const std::string_view vertex_path, const std::string_view fragment_path);
 
-    void                       use() const;
+    void use() const;
 
-    template <typename T> void set(const std::string_view name, T value) const
+    template <typename T>
+    void set(const std::string_view name, T value) const
     {
         if constexpr (std::is_same_v<T, bool>)
             glUniform1i(glGetUniformLocation(*id, name.data()), static_cast<int>(value));
