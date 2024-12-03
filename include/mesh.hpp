@@ -20,12 +20,14 @@ class Mesh
     {
         glDeleteVertexArrays(1, vao);
     }
+
     static void destruct_buffer_array(u32 *bo)
     {
         glDeleteBuffers(1, bo);
     }
 
   public:
+    Mesh() = default;
     Mesh(const std::string_view path);
     void render() const;
 };

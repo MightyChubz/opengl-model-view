@@ -21,7 +21,7 @@ class Texture final
     void flip_surface(SDL_Surface *surface, bool horizontal, bool vertical);
 
   public:
-    Texture() = delete;
+    Texture() = default;
     Texture(const std::string_view path);
     ~Texture() = default;
 
