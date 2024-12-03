@@ -30,6 +30,7 @@
 #include "rapidobj.hpp"
 #include "shader.hpp"
 #include "stddefs.hpp"
+#include "texture.hpp"
 
 struct Vertex {
     glm::vec3 vertice;
@@ -58,31 +59,6 @@ template <> struct std::hash<Vertex> {
         return h1 ^ (h2 << 1) ^ (h3 << 2) ^ (h4 << 3) ^ (h5 << 4);
     }
 };
-
-void flip_surface(SDL_Surface *surface, bool horizontal, bool vertical)
-{
-    if (!surface) return;
-
-    SDL_LockSurface(surface);
-
-    int    pitch  = surface->pitch;
-    int    height = surface->h;
-    int    width  = surface->w;
-    Uint8 *pixels = static_cast<Uint8 *>(surface->pixels);
-
-    for (int y = 0; y < height >> 1; ++y) {
-        for (int x = 0; x < width; ++x) {
-            int    target_y = vertical ? height - 1 - y : y;
-            int    target_x = horizontal ? width - 1 - x : x;
-
-            Uint8 *pixel1   = pixels + y * pitch + x * surface->format->BytesPerPixel;
-            Uint8 *pixel2   = pixels + target_y * pitch + target_x * surface->format->BytesPerPixel;
-            for (int i = 0; i < surface->format->BytesPerPixel; ++i) {
-                std::swap(*pixel1++, *pixel2++);
-            }
-        }
-    }
-}
 
 int main(int argc, char **argv)
 {
@@ -173,24 +149,7 @@ int main(int argc, char **argv)
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     // Texture
-    u32 texture;
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    SDL_Surface *image = IMG_Load("imgs/test.png");
-    if (image) {
-        flip_surface(image, false, true);
-        SDL_Log("Loaded image!");
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->w, image->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, image->pixels);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
-
-    SDL_FreeSurface(image);
+    Texture   texture("imgs/test.png");
 
     // Camera
     glm::vec3 camera_position = glm::vec3(0.0f, 0.0f, 3.0f);
@@ -277,7 +236,7 @@ int main(int argc, char **argv)
         glUniformMatrix4fv(view_location, 1, GL_FALSE, glm::value_ptr(view));
         glUniformMatrix4fv(proj_location, 1, GL_FALSE, glm::value_ptr(proj));
 
-        glBindTexture(GL_TEXTURE_2D, texture);
+        texture.use(GL_TEXTURE0);
         glBindVertexArray(vao);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
         glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
@@ -288,7 +247,6 @@ int main(int argc, char **argv)
         SDL_Delay(1);
     }
 
-    glDeleteTextures(1, &texture);
     glDeleteVertexArrays(1, &vao);
     glDeleteBuffers(1, &vbo);
     glDeleteBuffers(1, &ebo);
