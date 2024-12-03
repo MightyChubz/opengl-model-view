@@ -14,12 +14,11 @@
 
 class Shader
 {
-    static void delete_program(u32 *data);
-    u32         read_shader(std::string_view filename, GLenum shader_type);
-
-  public:
+    static void          delete_program(u32 *data);
+    u32                  read_shader(std::string_view filename, GLenum shader_type);
     std::shared_ptr<u32> id{nullptr, delete_program};
 
+  public:
     Shader() = default;
     Shader(const std::string_view vertex_path, const std::string_view fragment_path);
 
