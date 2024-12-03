@@ -19,6 +19,7 @@ srcs = [
   'src/main.cpp',
   'src/shader.cpp',
   'src/texture.cpp',
+  'src/mesh_loader.cpp',
 ]
 
 exe = executable(
