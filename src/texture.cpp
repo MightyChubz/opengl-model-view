@@ -1,3 +1,5 @@
+#include <GL/glew.h>
+#include <GL/glu.h>
 #include <array>
 #include <cstddef>
 #include <memory>
@@ -6,7 +8,7 @@
 #include "SDL_image.h"
 #include "SDL_log.h"
 #include "SDL_surface.h"
-#include "shader.hpp"
+#include "stddefs.hpp"
 #include "texture.hpp"
 
 void Texture::flip_surface(SDL_Surface *surface, bool horizontal, bool vertical)

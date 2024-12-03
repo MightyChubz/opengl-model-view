@@ -1,12 +1,13 @@
 #ifndef TEXTURE_HPP
 #define TEXTURE_HPP
 
+#include <GL/glu.h>
 #include <cstddef>
 #include <memory>
 #include <string_view>
 
 #include "SDL_surface.h"
-#include "shader.hpp"
+#include "stddefs.hpp"
 
 class Texture final
 {
