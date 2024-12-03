@@ -56,8 +56,8 @@ int main(int argc, char **argv)
     registry.add_mesh("cube", {"models/cube.obj"});
 
     const Shader  &shader          = registry.get_shader("default");
-    const Mesh    &mesh            = registry.get_mesh("cube");
     const Texture &texture         = registry.get_texture("test");
+    const Mesh    &mesh            = registry.get_mesh("sphere");
 
     // Camera
     glm::vec3      camera_position = glm::vec3(0.0f, 0.0f, 3.0f);
