@@ -8,7 +8,7 @@ MeshLoader::MeshData MeshLoader::load_obj(const std::string_view path)
 {
     rapidobj::Result data = rapidobj::ParseFile(path);
 
-    SDL_Log("Loaded model: %s", "models/sphere.obj");
+    SDL_Log("Loaded model: %s", path.data());
     SDL_Log("Total indices: %zu", data.shapes.front().mesh.indices.size());
     SDL_Log("Total positions: %zu", data.attributes.positions.size());
     SDL_Log("Total texcoords: %zu", data.attributes.texcoords.size());
