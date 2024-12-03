@@ -20,7 +20,6 @@
 #include "glm/ext/vector_float3.hpp"
 #include "glm/fwd.hpp"
 #include "glm/geometric.hpp"
-#include "glm/gtc/type_ptr.hpp"
 #include "glm/trigonometric.hpp"
 #include "mesh.hpp"
 #include "shader.hpp"
