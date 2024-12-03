@@ -13,6 +13,7 @@
 #include "SDL_stdinc.h"
 #include "SDL_timer.h"
 #include "SDL_video.h"
+#include "asset_registry.hpp"
 #include "glm/ext/matrix_clip_space.hpp"
 #include "glm/ext/matrix_float4x4.hpp"
 #include "glm/ext/matrix_transform.hpp"
@@ -49,17 +50,22 @@ int main(int argc, char **argv)
     glewInit();
     glEnable(GL_DEPTH_TEST);
 
-    Shader    shader("shaders/vertex.vert.glsl", "shaders/fragment.frag.glsl");
-    Mesh      mesh("models/sphere.obj");
-    Texture   texture("imgs/test2.png");
+    AssetRegistry &registry = AssetRegistry::get_instance();
+    registry.add_shader("default", {"shaders/vertex.vert.glsl", "shaders/fragment.frag.glsl"});
+    registry.add_texture("test2", {"imgs/test2.png"});
+    registry.add_mesh("sphere", {"models/sphere.obj"});
+    registry.add_mesh("cube", {"models/cube.obj"});
+    const Shader  &shader          = registry.get_shader("default");
+    const Texture &texture         = registry.get_texture("test2");
+    const Mesh    &mesh            = registry.get_mesh("cube");
 
     // Camera
-    glm::vec3 camera_position = glm::vec3(0.0f, 0.0f, 3.0f);
-    glm::vec3 camera_front    = glm::vec3(0.0f, 0.0f, -1.0f);
-    glm::vec3 camera_up       = glm::vec3(0.0f, 1.0f, 0.0f);
+    glm::vec3      camera_position = glm::vec3(0.0f, 0.0f, 3.0f);
+    glm::vec3      camera_front    = glm::vec3(0.0f, 0.0f, -1.0f);
+    glm::vec3      camera_up       = glm::vec3(0.0f, 1.0f, 0.0f);
 
     // Position and rotation
-    int       width, height;
+    int            width, height;
     SDL_GetWindowSize(window, &width, &height);
     glm::mat4 model = glm::mat4(1.0);
     glm::mat4 view  = glm::mat4(1.0);
