@@ -18,6 +18,7 @@ inc = include_directories('include')
 srcs = [
   'src/main.cpp',
   'src/shader.cpp',
+  'src/asset_registry.cpp',
   'src/texture.cpp',
   'src/mesh.cpp',
   'src/mesh_loader.cpp',
