@@ -58,7 +58,7 @@ Texture::Texture(const std::string_view path)
     this->texture.reset(new u32(texture), Texture::destruct_texture);
 }
 
-void Texture::use(size_t slot)
+void Texture::use(size_t slot) const
 {
     constexpr std::array texture_slots = {
         GL_TEXTURE0,  GL_TEXTURE1,  GL_TEXTURE2,  GL_TEXTURE3,  GL_TEXTURE4,  GL_TEXTURE5,  GL_TEXTURE6,  GL_TEXTURE7,

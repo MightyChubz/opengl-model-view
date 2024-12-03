@@ -72,7 +72,7 @@ Shader::Shader(const std::string_view vertex_path, const std::string_view fragme
     glDeleteShader(fragment_shader);
 }
 
-void Shader::use()
+void Shader::use() const
 {
     glUseProgram(*id);
 }

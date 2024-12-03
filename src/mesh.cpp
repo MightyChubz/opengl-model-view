@@ -41,7 +41,7 @@ Mesh::Mesh(const std::string_view path)
     indice_size = data.indices.size();
 }
 
-void Mesh::render()
+void Mesh::render() const
 {
     glBindVertexArray(*vao);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *ebo);
