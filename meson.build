@@ -38,5 +38,7 @@ fs = import('fs')
 fs.copyfile('shaders/vertex.vert.glsl')
 fs.copyfile('shaders/fragment.frag.glsl')
 fs.copyfile('imgs/test.png')
+fs.copyfile('models/cube.obj')
+fs.copyfile('models/sphere.obj')
 
 test('basic', exe)
