@@ -4,7 +4,6 @@
 #include <string_view>
 #include <vector>
 
-#include "mesh.hpp"
 #include "stddefs.hpp"
 #include "vertex.hpp"
 
