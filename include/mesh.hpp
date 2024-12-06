@@ -11,20 +11,25 @@
 
 class Mesh
 {
-    std::shared_ptr<u32> vao;
-    std::shared_ptr<u32> vbo;
-    std::shared_ptr<u32> ebo;
-    size_t               indice_size;
+    struct MeshBuffers {
+        u32 vao;
+        u32 vbo;
+        u32 ebo;
 
-    static void destruct_attribute_array(u32 *vao)
-    {
-        glDeleteVertexArrays(1, vao);
-    }
+        MeshBuffers(u32 vao, u32 vbo, u32 ebo) : vao(vao), vbo(vbo), ebo(ebo)
+        {
+        }
 
-    static void destruct_buffer_array(u32 *bo)
-    {
-        glDeleteBuffers(1, bo);
-    }
+        ~MeshBuffers()
+        {
+            glDeleteVertexArrays(1, &vao);
+            glDeleteBuffers(1, &vbo);
+            glDeleteBuffers(1, &ebo);
+        }
+    };
+
+    std::shared_ptr<MeshBuffers> buffers;
+    size_t                       indice_size;
 
   public:
     Mesh() = default;

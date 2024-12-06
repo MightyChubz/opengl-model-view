@@ -31,16 +31,14 @@ Mesh::Mesh(const MeshLoader::MeshData &data)
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    this->vao.reset(new u32(vao), destruct_attribute_array);
-    this->vbo.reset(new u32(vbo), destruct_buffer_array);
-    this->ebo.reset(new u32(ebo), destruct_buffer_array);
+    buffers.reset(new MeshBuffers(vao, vbo, ebo));
     indice_size = data.indices.size();
 }
 
 void Mesh::render() const
 {
-    glBindVertexArray(*vao);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *ebo);
+    glBindVertexArray(buffers->vao);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers->ebo);
     glDrawElements(GL_TRIANGLES, indice_size, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
