@@ -13,7 +13,7 @@ class Texture final
 {
     std::shared_ptr<u32> texture{nullptr};
 
-    static void          destruct_texture(u32 *texture)
+    static void destruct_texture(u32 *texture)
     {
         glDeleteTextures(1, texture);
     }

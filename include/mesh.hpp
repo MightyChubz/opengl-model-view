@@ -16,7 +16,7 @@ class Mesh
     std::shared_ptr<u32> ebo;
     size_t               indice_size;
 
-    static void          destruct_attribute_array(u32 *vao)
+    static void destruct_attribute_array(u32 *vao)
     {
         glDeleteVertexArrays(1, vao);
     }

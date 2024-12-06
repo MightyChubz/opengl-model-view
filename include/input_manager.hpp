@@ -23,14 +23,14 @@ class InputManager
 
     glm::vec2 mouse_relative();
 
-    void      change_sensitivity(const f32 value);
+    void change_sensitivity(const f32 value);
 
-    void      update_states();
-    void      update(const SDL_Event &event);
-    bool      is_pressed(SDL_Scancode key) const;
-    bool      is_held(SDL_Scancode key) const;
-    bool      is_released(SDL_Scancode key) const;
-    bool      is_mouse_moving() const;
+    void update_states();
+    void update(const SDL_Event &event);
+    bool is_pressed(SDL_Scancode key) const;
+    bool is_held(SDL_Scancode key) const;
+    bool is_released(SDL_Scancode key) const;
+    bool is_mouse_moving() const;
 };
 
 #endif
