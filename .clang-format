@@ -15,9 +15,9 @@ BinPackArguments: false
 BinPackParameters: false
 
 # Alignment code
-AlignConsecutiveDeclarations: AcrossEmptyLinesAndComments
-AlignConsecutiveAssignments: AcrossEmptyLinesAndComments
-AlignConsecutiveBitFields: AcrossEmptyLinesAndComments
+AlignConsecutiveDeclarations: Consecutive
+AlignConsecutiveAssignments: Consecutive
+AlignConsecutiveBitFields: Consecutive
 AlignTrailingComments: true
 AlignAfterOpenBracket: Align
 AlignOperands: Align
