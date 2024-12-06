@@ -4,8 +4,8 @@
 #include <GL/glew.h>
 #include <cstddef>
 #include <memory>
-#include <string_view>
 
+#include "mesh_loader.hpp"
 #include "stddefs.hpp"
 #include "texture.hpp"
 
@@ -28,7 +28,7 @@ class Mesh
 
   public:
     Mesh() = default;
-    Mesh(const std::string_view path);
+    Mesh(const MeshLoader::MeshData &data);
     void render() const;
 };
 

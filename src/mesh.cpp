@@ -2,12 +2,9 @@
 #include "mesh_loader.hpp"
 #include <string_view>
 
-Mesh::Mesh(const std::string_view path)
+Mesh::Mesh(const MeshLoader::MeshData &data)
 {
-    MeshLoader           loader;
-    MeshLoader::MeshData data = loader.load_obj(path);
-
-    u32                  vao, vbo, ebo;
+    u32 vao, vbo, ebo;
     glGenVertexArrays(1, &vao);
     glGenBuffers(1, &vbo);
     glGenBuffers(1, &ebo);

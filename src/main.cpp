@@ -24,6 +24,7 @@
 #include "glm/trigonometric.hpp"
 #include "input_manager.hpp"
 #include "mesh.hpp"
+#include "mesh_loader.hpp"
 #include "shader.hpp"
 #include "stddefs.hpp"
 #include "texture.hpp"
@@ -51,18 +52,19 @@ int main(int argc, char **argv)
     glewInit();
     glEnable(GL_DEPTH_TEST);
 
+    MeshLoader     mesh_loader;
     AssetRegistry &registry = AssetRegistry::get_instance();
     registry.add_shader("default", {"shaders/vertex.vert.glsl", "shaders/fragment.frag.glsl"});
     registry.add_texture("test", {"imgs/test.png"});
-    registry.add_mesh("sphere", {"models/sphere.obj"});
-    registry.add_mesh("cube", {"models/cube.obj"});
+    registry.add_mesh("sphere", {mesh_loader.load_obj("models/sphere.obj")});
+    registry.add_mesh("cube", {mesh_loader.load_obj("models/cube.obj")});
 
     const Shader  &shader  = registry.get_shader("default");
     const Texture &texture = registry.get_texture("test");
     const Mesh    &mesh    = registry.get_mesh("sphere");
 
     // Position and rotation
-    int            width, height;
+    int width, height;
     SDL_GetWindowSize(window, &width, &height);
     Camera    camera(width, height);
     glm::mat4 model = glm::mat4(1.0);
