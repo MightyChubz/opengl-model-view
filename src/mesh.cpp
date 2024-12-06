@@ -1,6 +1,5 @@
 #include "mesh.hpp"
 #include "mesh_loader.hpp"
-#include <string_view>
 
 Mesh::Mesh(const MeshLoader::MeshData &data)
 {

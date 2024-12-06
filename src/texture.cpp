@@ -24,11 +24,11 @@ void Texture::flip_surface(SDL_Surface *surface, bool horizontal, bool vertical)
 
     for (int y = 0; y < height >> 1; ++y) {
         for (int x = 0; x < width; ++x) {
-            int    target_y = vertical ? height - 1 - y : y;
-            int    target_x = horizontal ? width - 1 - x : x;
+            int target_y = vertical ? height - 1 - y : y;
+            int target_x = horizontal ? width - 1 - x : x;
 
-            Uint8 *pixel1   = pixels + y * pitch + x * surface->format->BytesPerPixel;
-            Uint8 *pixel2   = pixels + target_y * pitch + target_x * surface->format->BytesPerPixel;
+            Uint8 *pixel1 = pixels + y * pitch + x * surface->format->BytesPerPixel;
+            Uint8 *pixel2 = pixels + target_y * pitch + target_x * surface->format->BytesPerPixel;
             for (int i = 0; i < surface->format->BytesPerPixel; ++i) {
                 std::swap(*pixel1++, *pixel2++);
             }
