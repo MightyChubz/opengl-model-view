@@ -19,6 +19,7 @@ srcs = [
   'src/main.cpp',
   'src/sdl_subsystem.cpp',
   'src/gl_context.cpp',
+  'src/game_window.cpp',
   'src/shader.cpp',
   'src/asset_registry.cpp',
   'src/texture.cpp',
