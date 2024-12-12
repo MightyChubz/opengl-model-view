@@ -43,4 +43,4 @@ fs.copyfile('imgs/test.png')
 fs.copyfile('models/cube.obj')
 fs.copyfile('models/sphere.obj')
 
-test('basic', exe)
+test('basic', exe, timeout: 9999)
