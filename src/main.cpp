@@ -15,6 +15,7 @@
 #include "SDL_video.h"
 #include "asset_registry.hpp"
 #include "camera.hpp"
+#include "game_window.hpp"
 #include "gl_context.hpp"
 #include "glm/ext/matrix_float4x4.hpp"
 #include "glm/ext/matrix_transform.hpp"
@@ -38,14 +39,7 @@ int main(int argc, char **argv)
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
-    std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> window{SDL_CreateWindow("Testing window",
-                                                                                      SDL_WINDOWPOS_CENTERED,
-                                                                                      SDL_WINDOWPOS_CENTERED,
-                                                                                      1280,
-                                                                                      720,
-                                                                                      SDL_WINDOW_OPENGL),
-                                                                     &SDL_DestroyWindow};
-    gl_context                                                context(window.get());
+    game_window window("Testing window", 1280, 720);
 
     SDL_SetRelativeMouseMode(SDL_TRUE);
 
