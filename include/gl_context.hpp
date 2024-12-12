@@ -11,7 +11,10 @@ class gl_context
     gl_context(SDL_Window *window);
     ~gl_context();
 
-    const SDL_GLContext &get();
+    constexpr const SDL_GLContext &get()
+    {
+        return context;
+    }
 };
 
 #endif

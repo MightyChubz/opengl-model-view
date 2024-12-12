@@ -14,8 +14,3 @@ gl_context::~gl_context()
 {
     SDL_GL_DeleteContext(context);
 }
-
-const SDL_GLContext &gl_context::get()
-{
-    return context;
-}
