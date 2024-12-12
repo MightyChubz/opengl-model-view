@@ -6,9 +6,7 @@
 #include <strings.h>
 #include <vector>
 
-#include "SDL.h"
 #include "SDL_events.h"
-#include "SDL_image.h"
 #include "SDL_keyboard.h"
 #include "SDL_mouse.h"
 #include "SDL_scancode.h"
@@ -27,14 +25,14 @@
 #include "input_manager.hpp"
 #include "mesh.hpp"
 #include "mesh_loader.hpp"
+#include "sdl_subsystem.hpp"
 #include "shader.hpp"
 #include "stddefs.hpp"
 #include "texture.hpp"
 
 int main(int argc, char **argv)
 {
-    SDL_Init(SDL_INIT_VIDEO);
-    IMG_Init(IMG_INIT_PNG);
+    sdl_subsystem subsystem;
 
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
@@ -139,9 +137,6 @@ int main(int argc, char **argv)
         SDL_GL_SwapWindow(window.get());
         SDL_Delay(1);
     }
-
-    IMG_Quit();
-    SDL_Quit();
 
     return 0;
 }
