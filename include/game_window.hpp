@@ -8,9 +8,9 @@
 class game_window
 {
     std::shared_ptr<SDL_Window> window{nullptr};
-    gl_context                  context;
-    int                         width;
-    int                         height;
+    gl_context                  context{};
+    int                         width{0};
+    int                         height{0};
 
   public:
     game_window(std::string_view title, int width, int height);
