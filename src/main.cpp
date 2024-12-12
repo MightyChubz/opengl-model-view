@@ -1,6 +1,7 @@
 #include <GL/glew.h>
 #include <GL/glu.h>
 #include <cmath>
+#include <memory>
 #include <string_view>
 #include <strings.h>
 #include <vector>
@@ -39,12 +40,13 @@ int main(int argc, char **argv)
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
-    SDL_Window   *window  = SDL_CreateWindow("Testing window",
-                                          SDL_WINDOWPOS_CENTERED,
-                                          SDL_WINDOWPOS_CENTERED,
-                                          1280,
-                                          720,
-                                          SDL_WINDOW_OPENGL);
+    std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> window{SDL_CreateWindow("Testing window",
+                                                                                      SDL_WINDOWPOS_CENTERED,
+                                                                                      SDL_WINDOWPOS_CENTERED,
+                                                                                      1280,
+                                                                                      720,
+                                                                                      SDL_WINDOW_OPENGL),
+                                                                     &SDL_DestroyWindow};
     gl_context                                                context(window.get());
 
     SDL_SetRelativeMouseMode(SDL_TRUE);
@@ -64,7 +66,7 @@ int main(int argc, char **argv)
 
     // Position and rotation
     int width, height;
-    SDL_GetWindowSize(window, &width, &height);
+    SDL_GetWindowSize(window.get(), &width, &height);
     Camera    camera(width, height);
     glm::mat4 model = glm::mat4(1.0);
     model           = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0, 0.0f, 0.0f));
@@ -134,11 +136,10 @@ int main(int argc, char **argv)
         texture.use(0);
         mesh.render();
 
-        SDL_GL_SwapWindow(window);
+        SDL_GL_SwapWindow(window.get());
         SDL_Delay(1);
     }
 
-    SDL_DestroyWindow(window);
     IMG_Quit();
     SDL_Quit();
 
