@@ -5,12 +5,7 @@
 
 gl_context::gl_context(SDL_Window *window)
 {
-    context = SDL_GL_CreateContext(window);
-    SDL_GL_MakeCurrent(window, context);
+    context.reset(new SDL_GLContext(SDL_GL_CreateContext(window)), delete_context);
+    SDL_GL_MakeCurrent(window, context.get());
     glewInit();
-}
-
-gl_context::~gl_context()
-{
-    SDL_GL_DeleteContext(context);
 }
