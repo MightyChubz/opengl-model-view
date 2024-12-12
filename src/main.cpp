@@ -55,13 +55,11 @@ int main(int argc, char **argv)
     const Mesh    &mesh    = registry.get_mesh("sphere");
 
     // Position and rotation
-    int width, height;
-    SDL_GetWindowSize(window.get(), &width, &height);
-    Camera    camera(width, height);
+    Camera    camera(window.get_width(), window.get_height());
     glm::mat4 model = glm::mat4(1.0);
     model           = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0, 0.0f, 0.0f));
 
-    glViewport(0, 0, width, height);
+    glViewport(0, 0, window.get_width(), window.get_height());
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     std::vector<SDL_Scancode> keys = {SDL_SCANCODE_W, SDL_SCANCODE_A, SDL_SCANCODE_S, SDL_SCANCODE_D};
