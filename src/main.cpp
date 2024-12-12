@@ -1,7 +1,6 @@
 #include <GL/glew.h>
 #include <GL/glu.h>
 #include <cmath>
-#include <memory>
 #include <string_view>
 #include <strings.h>
 #include <vector>
@@ -16,7 +15,6 @@
 #include "asset_registry.hpp"
 #include "camera.hpp"
 #include "game_window.hpp"
-#include "gl_context.hpp"
 #include "glm/ext/matrix_float4x4.hpp"
 #include "glm/ext/matrix_transform.hpp"
 #include "glm/ext/vector_float2.hpp"
