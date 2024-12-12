@@ -17,6 +17,7 @@ inc = include_directories('include')
 
 srcs = [
   'src/main.cpp',
+  'src/gl_context.cpp',
   'src/shader.cpp',
   'src/asset_registry.cpp',
   'src/texture.cpp',
