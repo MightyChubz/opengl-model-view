@@ -16,6 +16,7 @@
 #include "SDL_video.h"
 #include "asset_registry.hpp"
 #include "camera.hpp"
+#include "gl_context.hpp"
 #include "glm/ext/matrix_float4x4.hpp"
 #include "glm/ext/matrix_transform.hpp"
 #include "glm/ext/vector_float2.hpp"
@@ -44,12 +45,10 @@ int main(int argc, char **argv)
                                           1280,
                                           720,
                                           SDL_WINDOW_OPENGL);
-    SDL_GLContext context = SDL_GL_CreateContext(window);
-    SDL_GL_MakeCurrent(window, context);
+    gl_context                                                context(window.get());
 
     SDL_SetRelativeMouseMode(SDL_TRUE);
 
-    glewInit();
     glEnable(GL_DEPTH_TEST);
 
     MeshLoader     mesh_loader;
@@ -139,7 +138,6 @@ int main(int argc, char **argv)
         SDL_Delay(1);
     }
 
-    SDL_GL_DeleteContext(context);
     SDL_DestroyWindow(window);
     IMG_Quit();
     SDL_Quit();
