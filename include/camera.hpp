@@ -17,32 +17,32 @@ class Camera
   public:
     Camera(const int width, const int height);
 
-    inline const glm::mat4 &projection_mat()
+    constexpr const glm::mat4 &projection_mat() const
     {
         return projection;
     }
 
-    inline const glm::mat4 &camera_view()
+    constexpr const glm::mat4 &camera_view() const
     {
         return view;
     }
 
-    inline glm::vec3 &position()
+    constexpr glm::vec3 &position()
     {
         return camera_position;
     }
 
-    inline glm::vec3 &front()
+    constexpr glm::vec3 &front()
     {
         return camera_front;
     }
 
-    inline glm::vec2 &angle()
+    constexpr glm::vec2 &angle()
     {
         return rotation;
     }
 
-    inline const glm::vec3 &up()
+    constexpr const glm::vec3 &up() const
     {
         return camera_up;
     }
