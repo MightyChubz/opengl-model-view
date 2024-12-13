@@ -1,15 +1,6 @@
-#include <vector>
-
+#include "input_manager.hpp"
 #include "SDL_events.h"
 #include "glm/ext/vector_float2.hpp"
-#include "input_manager.hpp"
-
-InputManager::InputManager(const std::vector<SDL_Scancode> &input_array)
-{
-    for (const auto &key : input_array) {
-        input_map[key] = InputState::NONE;
-    }
-}
 
 glm::vec2 InputManager::mouse_relative()
 {

@@ -62,13 +62,13 @@ int main(int argc, char **argv)
     glViewport(0, 0, window.get_width(), window.get_height());
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-    std::vector<SDL_Scancode> keys = {SDL_SCANCODE_W, SDL_SCANCODE_A, SDL_SCANCODE_S, SDL_SCANCODE_D};
-    InputManager              input_manager(keys);
-    u64                       then      = SDL_GetTicks64();
-    f64                       elapsed   = 0;
-    f64                       msPerTick = 1000.0 / 60.0;
-    bool                      running   = true;
-    SDL_Event                 event;
+    std::array   keys = {SDL_SCANCODE_W, SDL_SCANCODE_A, SDL_SCANCODE_S, SDL_SCANCODE_D};
+    InputManager input_manager(keys);
+    u64          then      = SDL_GetTicks64();
+    f64          elapsed   = 0;
+    f64          msPerTick = 1000.0 / 60.0;
+    bool         running   = true;
+    SDL_Event    event;
     while (running) {
         u64 now = SDL_GetTicks64();
         elapsed += static_cast<f32>(now - then) / msPerTick;

@@ -1,8 +1,8 @@
 #ifndef INPUT_MANAGER_HPP
 #define INPUT_MANAGER_HPP
 
+#include <cstddef>
 #include <unordered_map>
-#include <vector>
 
 #include "SDL_events.h"
 #include "SDL_scancode.h"
@@ -19,7 +19,13 @@ class InputManager
     f32                                          sensitivity{0.1f};
 
   public:
-    InputManager(const std::vector<SDL_Scancode> &input_array);
+    template <size_t T>
+    InputManager(const std::array<SDL_Scancode, T> &input_array)
+    {
+        for (const auto &key : input_array) {
+            input_map[key] = InputState::NONE;
+        }
+    }
 
     glm::vec2 mouse_relative();
 
