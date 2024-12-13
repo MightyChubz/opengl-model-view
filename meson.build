@@ -24,6 +24,7 @@ srcs = [
   'src/asset_registry.cpp',
   'src/texture.cpp',
   'src/mesh.cpp',
+  'src/model.cpp',
   'src/mesh_loader.cpp',
   'src/input_manager.cpp',
   'src/camera.cpp',
