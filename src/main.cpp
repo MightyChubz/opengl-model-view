@@ -24,6 +24,7 @@
 #include "mesh.hpp"
 #include "mesh_loader.hpp"
 #include "model.hpp"
+#include "model_factory.hpp"
 #include "sdl_subsystem.hpp"
 #include "shader.hpp"
 #include "stddefs.hpp"
@@ -50,13 +51,9 @@ int main(int argc, char **argv)
     registry.add_mesh("sphere", {mesh_loader.load_obj("sphere.obj")});
     registry.add_mesh("cube", {mesh_loader.load_obj("cube.obj")});
 
-    Shader  shader  = registry.get_shader("default");
-    Texture texture = registry.get_texture("test");
-    Mesh    mesh    = registry.get_mesh("cube");
-
     // Objects
     Camera camera(window.get_width(), window.get_height());
-    Model  model(std::move(mesh), std::move(texture), std::move(shader));
+    Model  model = ModelFactory::create_model("cube", "test", "default");
     model.rotate(glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
     glViewport(0, 0, window.get_width(), window.get_height());
