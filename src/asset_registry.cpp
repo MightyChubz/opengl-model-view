@@ -18,17 +18,17 @@ void AssetRegistry::add_mesh(const std::string_view name, Mesh mesh)
     if (!meshes.count(name)) meshes[name] = std::move(mesh);
 }
 
-const Shader &AssetRegistry::get_shader(const std::string_view name) const
+Shader AssetRegistry::get_shader(const std::string_view name) const
 {
     return shaders.at(name);
 }
 
-const Texture &AssetRegistry::get_texture(const std::string_view name) const
+Texture AssetRegistry::get_texture(const std::string_view name) const
 {
     return textures.at(name);
 }
 
-const Mesh &AssetRegistry::get_mesh(const std::string_view name) const
+Mesh AssetRegistry::get_mesh(const std::string_view name) const
 {
     return meshes.at(name);
 }

@@ -26,12 +26,12 @@ class AssetRegistry
         return *registry;
     }
 
-    void           add_shader(const std::string_view name, Shader shader);
-    void           add_texture(const std::string_view name, Texture texture);
-    void           add_mesh(const std::string_view name, Mesh mesh);
-    const Shader  &get_shader(const std::string_view name) const;
-    const Texture &get_texture(const std::string_view name) const;
-    const Mesh    &get_mesh(const std::string_view name) const;
+    void    add_shader(const std::string_view name, Shader shader);
+    void    add_texture(const std::string_view name, Texture texture);
+    void    add_mesh(const std::string_view name, Mesh mesh);
+    Shader  get_shader(const std::string_view name) const;
+    Texture get_texture(const std::string_view name) const;
+    Mesh    get_mesh(const std::string_view name) const;
 };
 
 #endif
