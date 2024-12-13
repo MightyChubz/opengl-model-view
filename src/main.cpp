@@ -1,8 +1,10 @@
 #include <GL/glew.h>
 #include <GL/glu.h>
+#include <algorithm>
 #include <cmath>
 #include <string_view>
 #include <strings.h>
+#include <utility>
 
 #include "SDL_events.h"
 #include "SDL_keyboard.h"
@@ -14,8 +16,6 @@
 #include "asset_registry.hpp"
 #include "camera.hpp"
 #include "game_window.hpp"
-#include "glm/ext/matrix_float4x4.hpp"
-#include "glm/ext/matrix_transform.hpp"
 #include "glm/ext/vector_float2.hpp"
 #include "glm/ext/vector_float3.hpp"
 #include "glm/fwd.hpp"
@@ -23,6 +23,7 @@
 #include "input_manager.hpp"
 #include "mesh.hpp"
 #include "mesh_loader.hpp"
+#include "model.hpp"
 #include "sdl_subsystem.hpp"
 #include "shader.hpp"
 #include "stddefs.hpp"
@@ -49,14 +50,14 @@ int main(int argc, char **argv)
     registry.add_mesh("sphere", {mesh_loader.load_obj("sphere.obj")});
     registry.add_mesh("cube", {mesh_loader.load_obj("cube.obj")});
 
-    const Shader  &shader  = registry.get_shader("default");
-    const Texture &texture = registry.get_texture("test");
-    const Mesh    &mesh    = registry.get_mesh("sphere");
+    Shader  shader  = registry.get_shader("default");
+    Texture texture = registry.get_texture("test");
+    Mesh    mesh    = registry.get_mesh("cube");
 
-    // Position and rotation
-    Camera    camera(window.get_width(), window.get_height());
-    glm::mat4 model = glm::mat4(1.0);
-    model           = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0, 0.0f, 0.0f));
+    // Objects
+    Camera camera(window.get_width(), window.get_height());
+    Model  model(std::move(mesh), std::move(texture), std::move(shader));
+    model.rotate(glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
     glViewport(0, 0, window.get_width(), window.get_height());
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -107,7 +108,7 @@ int main(int argc, char **argv)
             if (input_manager.is_held(SDL_SCANCODE_D))
                 camera.position() += glm::normalize(glm::cross(camera.front(), camera.up())) * camera_speed;
 
-            model = glm::rotate(model, static_cast<float>(elapsed / 100), glm::vec3(0.5, 1.0, 0.0));
+            model.rotate(static_cast<float>(elapsed / 100), glm::vec3(0.5, 1.0, 0.0));
             camera.update();
 
             elapsed -= 1.0;
@@ -116,12 +117,7 @@ int main(int argc, char **argv)
         glClearColor(0.2f, 0.3f, 0.3, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        shader.use();
-        shader.set("model", model);
-        shader.set("view", camera.camera_view());
-        shader.set("projection", camera.projection_mat());
-        texture.use(0);
-        mesh.render();
+        model.render(camera);
 
         SDL_GL_SwapWindow(window.get());
         SDL_Delay(1);
