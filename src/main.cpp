@@ -3,7 +3,6 @@
 #include <cmath>
 #include <string_view>
 #include <strings.h>
-#include <vector>
 
 #include "SDL_events.h"
 #include "SDL_keyboard.h"
