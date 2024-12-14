@@ -6,6 +6,7 @@
 #include <GL/gl.h>
 #include <GL/glext.h>
 #include <array>
+#include <cstddef>
 #include <memory>
 #include <ranges>
 #include <string>
@@ -40,6 +41,13 @@ enum class BufferType { ARRAY = GL_ARRAY_BUFFER, ELEMENT_ARRAY = GL_ELEMENT_ARRA
 
 class MaterialSystem
 {
+    static constexpr std::array texture_slots = {
+        GL_TEXTURE0,  GL_TEXTURE1,  GL_TEXTURE2,  GL_TEXTURE3,  GL_TEXTURE4,  GL_TEXTURE5,  GL_TEXTURE6,  GL_TEXTURE7,
+        GL_TEXTURE8,  GL_TEXTURE9,  GL_TEXTURE10, GL_TEXTURE11, GL_TEXTURE12, GL_TEXTURE13, GL_TEXTURE14, GL_TEXTURE15,
+        GL_TEXTURE16, GL_TEXTURE17, GL_TEXTURE18, GL_TEXTURE19, GL_TEXTURE20, GL_TEXTURE21, GL_TEXTURE22, GL_TEXTURE23,
+        GL_TEXTURE24, GL_TEXTURE25, GL_TEXTURE26, GL_TEXTURE27, GL_TEXTURE28, GL_TEXTURE29, GL_TEXTURE30, GL_TEXTURE31,
+    };
+
   public:
     static void get_context(std::shared_ptr<MaterialSystem> &ptr)
     {
@@ -64,7 +72,7 @@ class MaterialSystem
     void           set_texture_parameter(const TextureParameters parameter, const TextureSetValues value) const;
     void           write_texture_to_active(const int width, const int height, const void *buffer) const;
     void           generate_mipmaps() const;
-    void           set_active(const int slot) const;
+    void           set_active(const size_t slot) const;
     void           delete_texture(TEXTURE_HANDLE handle) const;
 
     /*

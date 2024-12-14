@@ -5,6 +5,7 @@
 #include <GL/glu.h>
 #include <algorithm>
 #include <array>
+#include <cstddef>
 #include <memory>
 #include <string>
 
@@ -37,9 +38,9 @@ void MaterialSystem::generate_mipmaps() const
     glGenerateMipmap(GL_TEXTURE_2D);
 }
 
-void MaterialSystem::set_active(const int slot) const
+void MaterialSystem::set_active(const size_t slot) const
 {
-    glActiveTexture(slot);
+    glActiveTexture(texture_slots[slot]);
 }
 
 void MaterialSystem::delete_texture(TEXTURE_HANDLE handle) const
