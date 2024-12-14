@@ -1,10 +1,7 @@
-#include <GL/glew.h>
-#include <GL/glu.h>
-#include <algorithm>
 #include <cmath>
+#include <memory>
 #include <string_view>
 #include <strings.h>
-#include <utility>
 
 #include "SDL_events.h"
 #include "SDL_keyboard.h"
@@ -21,6 +18,7 @@
 #include "glm/fwd.hpp"
 #include "glm/trigonometric.hpp"
 #include "input_manager.hpp"
+#include "material_system.hpp"
 #include "mesh.hpp"
 #include "mesh_loader.hpp"
 #include "model.hpp"
@@ -42,7 +40,9 @@ int main(int argc, char **argv)
 
     SDL_SetRelativeMouseMode(SDL_TRUE);
 
-    glEnable(GL_DEPTH_TEST);
+    std::shared_ptr<MaterialSystem> mat_render_context;
+    MaterialSystem::get_context(mat_render_context);
+    mat_render_context->enable_depth_test();
 
     MeshLoader     mesh_loader;
     AssetRegistry &registry = AssetRegistry::get_instance();
@@ -56,8 +56,8 @@ int main(int argc, char **argv)
     Model  model = ModelFactory::create_model("cube", "test", "default");
     model.rotate(glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
-    glViewport(0, 0, window.get_width(), window.get_height());
-    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    mat_render_context->set_viewport(0, 0, window.get_width(), window.get_height());
+    // mat_render_context->toggle_debug_wireframe();
 
     std::array   keys = {SDL_SCANCODE_W, SDL_SCANCODE_A, SDL_SCANCODE_S, SDL_SCANCODE_D};
     InputManager input_manager(keys);
@@ -111,11 +111,8 @@ int main(int argc, char **argv)
             elapsed -= 1.0;
         }
 
-        glClearColor(0.2f, 0.3f, 0.3, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+        mat_render_context->clear_with_color(0.2f, 0.3f, 0.3f);
         model.render(camera);
-
         SDL_GL_SwapWindow(window.get());
         SDL_Delay(1);
     }
