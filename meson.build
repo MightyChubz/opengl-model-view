@@ -28,6 +28,7 @@ srcs = [
   'src/mesh_loader.cpp',
   'src/input_manager.cpp',
   'src/camera.cpp',
+  'src/material_system.cpp',
 ]
 
 exe = executable(
