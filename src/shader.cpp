@@ -1,18 +1,22 @@
 #include <filesystem>
 #include <fstream>
+#include <memory>
 #include <string_view>
 
 #include "SDL_log.h"
+#include "material_system.hpp"
 #include "shader.hpp"
 
-void Shader::delete_program(u32 *data)
+void Shader::delete_program(PROGRAM_HANDLE *handle)
 {
-    if (data == nullptr) return;
-    glDeleteProgram(*data);
-    delete data;
+    if (handle == nullptr) return;
+    std::shared_ptr<MaterialSystem> mat_render_context;
+    MaterialSystem::get_context(mat_render_context);
+    mat_render_context->delete_program(*handle);
+    delete handle;
 }
 
-u32 Shader::read_shader(std::string_view filename, GLenum shader_type)
+SHADER_HANDLE Shader::read_shader(std::string_view filename, ShaderType shader_type)
 {
     std::filesystem::path file_path(filename);
 
@@ -25,24 +29,18 @@ u32 Shader::read_shader(std::string_view filename, GLenum shader_type)
 
             SDL_Log("Loaded shader: %s", filename.data());
 
-            u32         shader       = glCreateShader(shader_type);
-            const char *context_cstr = content.c_str();
+            SHADER_HANDLE handle = mat_render_context->create_shader(shader_type);
+            mat_render_context->set_shader_source(handle, content);
+            mat_render_context->compile_shader(handle);
 
-            glShaderSource(shader, 1, &context_cstr, nullptr);
-            glCompileShader(shader);
-
-            i32                   success;
-            std::array<char, 512> infoLog;
-            std::ranges::fill(infoLog, 0);
-            glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-            if (!success) {
-                glGetShaderInfoLog(shader, 512, nullptr, infoLog.data());
-                SDL_Log("Error compiling shader: %s", infoLog.data());
+            if (!mat_render_context->shader_compile_status(handle)) {
+                const std::array<char, 512> log = mat_render_context->get_shader_compile_error(handle);
+                SDL_Log("Error compiling shader: %s", log.data());
             }
 
             SDL_Log("Compiled shader: %s", filename.data());
 
-            return shader;
+            return handle;
         }
     }
 
@@ -51,28 +49,25 @@ u32 Shader::read_shader(std::string_view filename, GLenum shader_type)
 
 Shader::Shader(const std::string_view vertex_path, const std::string_view fragment_path)
 {
-    u32 vertex_shader   = read_shader(vertex_path, GL_VERTEX_SHADER);
-    u32 fragment_shader = read_shader(fragment_path, GL_FRAGMENT_SHADER);
+    MaterialSystem::get_context(mat_render_context);
+    SHADER_HANDLE vertex_shader   = read_shader(vertex_path, ShaderType::VERTEX);
+    SHADER_HANDLE fragment_shader = read_shader(fragment_path, ShaderType::FRAGMENT);
 
-    id.reset(new u32(glCreateProgram()));
-    glAttachShader(*id, vertex_shader);
-    glAttachShader(*id, fragment_shader);
-    glLinkProgram(*id);
+    handle.reset(new PROGRAM_HANDLE(mat_render_context->create_program()));
+    mat_render_context->attach_shader(*handle, vertex_shader);
+    mat_render_context->attach_shader(*handle, fragment_shader);
+    mat_render_context->link_program(*handle);
 
-    i32                   success;
-    std::array<char, 512> infoLog;
-    std::ranges::fill(infoLog, 0);
-    glGetProgramiv(*id, GL_LINK_STATUS, &success);
-    if (!success) {
-        glGetProgramInfoLog(*id, 512, nullptr, infoLog.data());
-        SDL_Log("Error linking shader program: %s", infoLog.data());
+    if (!mat_render_context->program_link_status(*handle)) {
+        const std::array<char, 512> log = mat_render_context->get_program_link_error(*handle);
+        SDL_Log("Error linking shader program: %s", log.data());
     }
 
-    glDeleteShader(vertex_shader);
-    glDeleteShader(fragment_shader);
+    mat_render_context->delete_shader(vertex_shader);
+    mat_render_context->delete_shader(fragment_shader);
 }
 
 void Shader::use() const
 {
-    glUseProgram(*id);
+    mat_render_context->use_program(*handle);
 }
