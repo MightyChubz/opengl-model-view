@@ -1,34 +1,24 @@
 #include "mesh.hpp"
+#include "material_system.hpp"
 #include "mesh_loader.hpp"
+#include "vertex.hpp"
 
 Mesh::Mesh(const MeshLoader::MeshData &data)
 {
-    u32 vao, vbo, ebo;
-    glGenVertexArrays(1, &vao);
-    glGenBuffers(1, &vbo);
-    glGenBuffers(1, &ebo);
-
-    glBindVertexArray(vao);
-
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, data.vertices.size() * sizeof(Vertex), data.vertices.data(), GL_STATIC_DRAW);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, data.indices.size() * sizeof(u32), data.indices.data(), GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), static_cast<void *>(0));
-    glEnableVertexAttribArray(0);
-
-    glVertexAttribPointer(1,
-                          2,
-                          GL_FLOAT,
-                          GL_FALSE,
-                          sizeof(Vertex),
-                          reinterpret_cast<void *>(offsetof(Vertex, texcoord)));
-    glEnableVertexAttribArray(1);
-
-    glBindVertexArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    MaterialSystem::get_context(mat_render_context);
+    VERTEX_ARRAY_HANDLE vao = mat_render_context->generate_vertex_array();
+    BUFFER_HANDLE       vbo = mat_render_context->generate_buffer();
+    BUFFER_HANDLE       ebo = mat_render_context->generate_buffer();
+    mat_render_context->bind_vertex_array(vao);
+    mat_render_context->bind_buffer(BufferType::ARRAY, vbo);
+    mat_render_context->write_buffer_static_data(BufferType::ARRAY, data.vertices);
+    mat_render_context->bind_buffer(BufferType::ELEMENT_ARRAY, ebo);
+    mat_render_context->write_buffer_static_data(BufferType::ELEMENT_ARRAY, data.indices);
+    mat_render_context->set_attribute_pointer(0, 3, sizeof(Vertex), static_cast<void *>(0));
+    mat_render_context->set_attribute_pointer(1,
+                                              2,
+                                              sizeof(Vertex),
+                                              reinterpret_cast<void *>(offsetof(Vertex, texcoord)));
 
     buffers.reset(new MeshBuffers(vao, vbo, ebo));
     indice_size = data.indices.size();
@@ -36,9 +26,9 @@ Mesh::Mesh(const MeshLoader::MeshData &data)
 
 void Mesh::render() const
 {
-    glBindVertexArray(buffers->vao);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers->ebo);
-    glDrawElements(GL_TRIANGLES, indice_size, GL_UNSIGNED_INT, 0);
-    glBindVertexArray(0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    mat_render_context->bind_vertex_array(buffers->vao);
+    mat_render_context->bind_buffer(BufferType::ELEMENT_ARRAY, buffers->ebo);
+    mat_render_context->draw_elements(indice_size);
+    mat_render_context->unbind_vertex_array();
+    mat_render_context->unbind_buffer(BufferType::ELEMENT_ARRAY);
 }
