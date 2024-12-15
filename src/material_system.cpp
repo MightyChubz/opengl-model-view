@@ -165,9 +165,14 @@ void MaterialSystem::SetAttributePointer(u32 index, i32 count, u32 size, void *o
     glEnableVertexAttribArray(index);
 }
 
-void MaterialSystem::DrawElements(u32 size) const
+void MaterialSystem::SetTargetIndiceSize(u32 size)
 {
-    glDrawElements(GL_TRIANGLES, static_cast<i32>(size), GL_UNSIGNED_INT, nullptr);
+    m_targetIndiceSize = size;
+}
+
+void MaterialSystem::DrawElements() const
+{
+    glDrawElements(GL_TRIANGLES, static_cast<i32>(m_targetIndiceSize), GL_UNSIGNED_INT, nullptr);
 }
 
 void MaterialSystem::DeleteBuffer(BUFFER_HANDLE handle) const

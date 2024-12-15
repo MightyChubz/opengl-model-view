@@ -50,6 +50,8 @@ class MaterialSystem
     };
 
     BufferType m_boundBufferType{BufferType::NONE};
+    u32        m_targetIndiceSize;
+
   public:
     static void GetContext(std::shared_ptr<MaterialSystem> &ptr)
     {
@@ -126,7 +128,8 @@ class MaterialSystem
     void                              UnbindVertexArray() const;
     void                              UnbindBuffer() const;
     void                              SetAttributePointer(u32 index, i32 count, u32 size, void *offset) const;
-    void                              DrawElements(u32 size) const;
+    void                              SetTargetIndiceSize(u32 size);
+    void                              DrawElements() const;
     void                              DeleteBuffer(BUFFER_HANDLE handle) const;
     void                              DeleteVertexArray(VERTEX_ARRAY_HANDLE handle) const;
 
