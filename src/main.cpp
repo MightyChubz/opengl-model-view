@@ -58,9 +58,8 @@ int main(int argc, char **argv)
     model.Rotate(glm::radians(-55.0F), glm::vec3(1.0F, 0.0F, 0.0F));
 
     matRenderContext->SetViewport(0, 0, window.GetWidth(), window.GetHeight());
-    // mat_render_context->toggle_debug_wireframe();
 
-    std::array   keys = {SDL_SCANCODE_W, SDL_SCANCODE_A, SDL_SCANCODE_S, SDL_SCANCODE_D};
+    std::array   keys = {SDL_SCANCODE_W, SDL_SCANCODE_A, SDL_SCANCODE_S, SDL_SCANCODE_D, SDL_SCANCODE_G};
     InputManager inputManager(keys);
     u64          then      = SDL_GetTicks64();
     f64          elapsed   = 0;
@@ -105,6 +104,7 @@ int main(int argc, char **argv)
                 camera.Position() -= glm::normalize(glm::cross(camera.Front(), camera.Up())) * cameraSpeed;
             if (inputManager.IsHeld(SDL_SCANCODE_D))
                 camera.Position() += glm::normalize(glm::cross(camera.Front(), camera.Up())) * cameraSpeed;
+            if (inputManager.IsPressed(SDL_SCANCODE_G)) matRenderContext->ToggleDebugWireframe();
 
             model.Rotate(static_cast<float>(elapsed / 100), glm::vec3(0.5, 1.0, 0.0));
             camera.Update();
