@@ -1,0 +1,59 @@
+Checks: "clang-diagnostic-*,
+  clang-analyzer-*,
+  cppcoreguidelines-*,
+  modernize-*,
+  readability-*,
+  -modernize-use-trailing-return-type,
+  -cppcoreguidelines-avoid-magic-numbers,
+  -cppcoreguidelines-pro-type-union-access,
+  -cppcoreguidelines-pro-type-vararg,
+  -cppcoreguidelines-pro-bounds-pointer-arithmetic,
+  -cppcoreguidelines-pro-bounds-constant-array-index,
+  -cppcoreguidelines-rvalue-reference-param-not-moved,
+  -cppcoreguidelines-owning-memory,
+  -cppcoreguidelines-pro-type-reinterpret-cast,
+  -readability-magic-numbers,
+  -readability-braces-around-statements,
+  -readability-avoid-const-params-in-decls"
+
+# This section is to specify which files to check.
+HeaderFilterRegex: '^(?!.*rapidobj\.hpp$).*'
+
+CheckOptions:
+  - { key: readability-identifier-naming.NamespaceCase, value: lower_case }
+  - { key: readability-identifier-naming.ClassCase, value: CamelCase }
+  - { key: readability-identifier-naming.StructCase, value: CamelCase }
+  - { key: readability-identifier-naming.PublicMemberCase, value: camelBack }
+  - { key: readability-identifier-naming.PublicMemberPrefix, value: m_ }
+  - { key: readability-identifier-naming.PrivateMemberCase, value: camelBack }
+  - { key: readability-identifier-naming.PrivateMemberPrefix, value: m_ }
+  - { key: readability-identifier-naming.ProtectedMemberCase, value: camelBack }
+  - { key: readability-identifier-naming.ProtectedMemberPrefix, value: m_ }
+  - { key: readability-identifier-naming.ClassMethodCase, value: CamelCase }
+  - { key: readability-identifier-naming.PrivateMethodCase, value: camelBack }
+  - { key: readability-identifier-naming.ProtectedMethodCase, value: camelBack }
+  - { key: readability-identifier-naming.PublicMethodCase, value: CamelCase }
+  - { key: readability-identifier-naming.ConceptCase, value: CamelCase }
+  - { key: readability-identifier-naming.EnumCase, value: CamelCase }
+  - { key: readability-identifier-naming.EnumConstantCase, value: UPPER_CASE }
+  - { key: readability-identifier-naming.GlobalFunctionCase, value: CamelCase }
+  - { key: readability-identifier-naming.GlobalFunctionCasePrefix, value: G_ }
+  - { key: readability-identifier-naming.GlobalConstantCase, value: UPPER_CASE }
+  - { key: readability-identifier-naming.GlobalConstantCasePrefix, value: G_ }
+  - {
+      key: readability-identifier-naming.GlobalConstantPointerCase,
+      value: UPPER_CASE,
+    }
+  - {
+      key: readability-identifier-naming.GlobalConstantPointerCasePrefix,
+      value: G_,
+    }
+  - { key: readability-identifier-naming.GlobalPointerCase, value: CamelCase }
+  - { key: readability-identifier-naming.GlobalPointerCasePrefix, value: GP_ }
+  - { key: readability-identifier-naming.GlobalVariableCase, value: CamelCase }
+  - { key: readability-identifier-naming.GlobalVariableCasePrefix, value: GV_ }
+  - { key: readability-identifier-naming.LocalVariableCase, value: camelBack }
+  - {
+      key: readability-identifier-naming.TemplateParameterCase,
+      value: UPPER_CASE,
+    }
