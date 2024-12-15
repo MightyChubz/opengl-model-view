@@ -38,7 +38,7 @@ enum class TextureSetValues { REPEAT = GL_REPEAT, LINEAR_MIPMAP = GL_LINEAR_MIPM
 
 enum class ShaderType { FRAGMENT = GL_FRAGMENT_SHADER, VERTEX = GL_VERTEX_SHADER };
 
-enum class BufferType { ARRAY = GL_ARRAY_BUFFER, ELEMENT_ARRAY = GL_ELEMENT_ARRAY_BUFFER };
+enum class BufferType { ARRAY = GL_ARRAY_BUFFER, ELEMENT_ARRAY = GL_ELEMENT_ARRAY_BUFFER, NONE = -1 };
 
 class MaterialSystem
 {
@@ -49,6 +49,7 @@ class MaterialSystem
         GL_TEXTURE24, GL_TEXTURE25, GL_TEXTURE26, GL_TEXTURE27, GL_TEXTURE28, GL_TEXTURE29, GL_TEXTURE30, GL_TEXTURE31,
     };
 
+    BufferType m_boundBufferType{BufferType::NONE};
   public:
     static void GetContext(std::shared_ptr<MaterialSystem> &ptr)
     {
@@ -121,18 +122,19 @@ class MaterialSystem
     [[nodiscard]] BUFFER_HANDLE       GenerateBuffer() const;
     [[nodiscard]] VERTEX_ARRAY_HANDLE GenerateVertexArray() const;
     void                              BindVertexArray(VERTEX_ARRAY_HANDLE handle) const;
-    void                              BindBuffer(BufferType buffer_type, BUFFER_HANDLE handle) const;
+    void                              BindBuffer(BufferType buffer_type, BUFFER_HANDLE handle);
     void                              UnbindVertexArray() const;
-    void                              UnbindBuffer(BufferType buffer_type) const;
+    void                              UnbindBuffer() const;
     void                              SetAttributePointer(u32 index, i32 count, u32 size, void *offset) const;
     void                              DrawElements(u32 size) const;
     void                              DeleteBuffer(BUFFER_HANDLE handle) const;
     void                              DeleteVertexArray(VERTEX_ARRAY_HANDLE handle) const;
 
     template <SizedContiguousRange RANGE>
-    void WriteBufferStaticData(BufferType buffer_type, RANGE range) const
+    void WriteStaticDataInBuffer(RANGE range) const
     {
-        glBufferData(static_cast<GLenum>(buffer_type),
+        if (m_boundBufferType == BufferType::NONE) return;
+        glBufferData(static_cast<GLenum>(m_boundBufferType),
                      range.size() * sizeof((*range.begin())),
                      &(*range.begin()),
                      GL_STATIC_DRAW);

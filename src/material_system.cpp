@@ -142,9 +142,10 @@ void MaterialSystem::BindVertexArray(VERTEX_ARRAY_HANDLE handle) const
     glBindVertexArray(handle);
 }
 
-void MaterialSystem::BindBuffer(BufferType buffer_type, BUFFER_HANDLE handle) const
+void MaterialSystem::BindBuffer(BufferType buffer_type, BUFFER_HANDLE handle)
 {
     glBindBuffer(static_cast<GLenum>(buffer_type), handle);
+    m_boundBufferType = buffer_type;
 }
 
 void MaterialSystem::UnbindVertexArray() const
@@ -152,9 +153,10 @@ void MaterialSystem::UnbindVertexArray() const
     BindVertexArray(0);
 }
 
-void MaterialSystem::UnbindBuffer(BufferType buffer_type) const
+void MaterialSystem::UnbindBuffer() const
 {
-    BindBuffer(buffer_type, 0);
+    if (m_boundBufferType == BufferType::NONE) return;
+    glBindBuffer(static_cast<GLenum>(m_boundBufferType), 0);
 }
 
 void MaterialSystem::SetAttributePointer(u32 index, i32 count, u32 size, void *offset) const
