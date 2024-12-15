@@ -6,7 +6,6 @@
 #include <algorithm>
 #include <array>
 #include <cstddef>
-#include <memory>
 #include <string>
 
 #include "material_system.hpp"
