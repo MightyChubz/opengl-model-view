@@ -83,7 +83,7 @@ class MaterialSystem
      */
     SHADER_HANDLE               create_shader(const ShaderType shader_type) const;
     PROGRAM_HANDLE              create_program() const;
-    void                        set_shader_source(SHADER_HANDLE handle, const std::string &src) const;
+    void                        write_shader_source(SHADER_HANDLE handle, const std::string &src) const;
     void                        compile_shader(SHADER_HANDLE handle) const;
     bool                        shader_compile_status(SHADER_HANDLE handle) const;
     void                        attach_shader(PROGRAM_HANDLE handle, SHADER_HANDLE shader_handle) const;

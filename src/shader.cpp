@@ -30,7 +30,7 @@ SHADER_HANDLE Shader::read_shader(std::string_view filename, ShaderType shader_t
             SDL_Log("Loaded shader: %s", filename.data());
 
             SHADER_HANDLE handle = mat_render_context->create_shader(shader_type);
-            mat_render_context->set_shader_source(handle, content);
+            mat_render_context->write_shader_source(handle, content);
             mat_render_context->compile_shader(handle);
 
             if (!mat_render_context->shader_compile_status(handle)) {

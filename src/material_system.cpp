@@ -57,7 +57,7 @@ PROGRAM_HANDLE MaterialSystem::create_program() const
     return glCreateProgram();
 }
 
-void MaterialSystem::set_shader_source(SHADER_HANDLE handle, const std::string &content) const
+void MaterialSystem::write_shader_source(SHADER_HANDLE handle, const std::string &content) const
 {
     const char *content_ptr = content.c_str();
     glShaderSource(handle, 1, &content_ptr, nullptr);
