@@ -17,18 +17,18 @@ inc = include_directories('include')
 
 srcs = [
   'src/main.cpp',
-  'src/sdl_subsystem.cpp',
-  'src/gl_context.cpp',
-  'src/game_window.cpp',
-  'src/shader.cpp',
-  'src/asset_registry.cpp',
-  'src/texture.cpp',
-  'src/mesh.cpp',
-  'src/model.cpp',
-  'src/mesh_loader.cpp',
-  'src/input_manager.cpp',
-  'src/camera.cpp',
-  'src/material_system.cpp',
+  'src/SdlSubsystem.cpp',
+  'src/GLContext.cpp',
+  'src/GameWindow.cpp',
+  'src/Shader.cpp',
+  'src/AssetRegistry.cpp',
+  'src/Texture.cpp',
+  'src/Mesh.cpp',
+  'src/Model.cpp',
+  'src/MeshLoader.cpp',
+  'src/InputManager.cpp',
+  'src/Camera.cpp',
+  'src/MaterialSystem.cpp',
 ]
 
 exe = executable(
