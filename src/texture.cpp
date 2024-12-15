@@ -52,7 +52,7 @@ Texture::Texture(const std::string_view path)
         mat_render_context->generate_mipmaps();
     }
 
-    this->texture.reset(new u32(texture), Texture::destruct_texture);
+    this->texture.reset(new TEXTURE_HANDLE(texture), Texture::destruct_texture);
 }
 
 void Texture::use(size_t slot) const
