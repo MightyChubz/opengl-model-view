@@ -19,7 +19,7 @@
 #include "stddefs.hpp"
 
 template <typename T>
-concept sized_contiguous_range = std::ranges::contiguous_range<T> && std::ranges::sized_range<T>;
+concept SizedContiguousRange = std::ranges::contiguous_range<T> && std::ranges::sized_range<T>;
 
 using TEXTURE_HANDLE      = u32;
 using SHADER_HANDLE       = u32;
@@ -42,7 +42,7 @@ enum class BufferType { ARRAY = GL_ARRAY_BUFFER, ELEMENT_ARRAY = GL_ELEMENT_ARRA
 
 class MaterialSystem
 {
-    static constexpr std::array texture_slots = {
+    static constexpr std::array TEXTURE_SLOTS = {
         GL_TEXTURE0,  GL_TEXTURE1,  GL_TEXTURE2,  GL_TEXTURE3,  GL_TEXTURE4,  GL_TEXTURE5,  GL_TEXTURE6,  GL_TEXTURE7,
         GL_TEXTURE8,  GL_TEXTURE9,  GL_TEXTURE10, GL_TEXTURE11, GL_TEXTURE12, GL_TEXTURE13, GL_TEXTURE14, GL_TEXTURE15,
         GL_TEXTURE16, GL_TEXTURE17, GL_TEXTURE18, GL_TEXTURE19, GL_TEXTURE20, GL_TEXTURE21, GL_TEXTURE22, GL_TEXTURE23,
@@ -50,13 +50,13 @@ class MaterialSystem
     };
 
   public:
-    static void get_context(std::shared_ptr<MaterialSystem> &ptr)
+    static void GetContext(std::shared_ptr<MaterialSystem> &ptr)
     {
         static std::weak_ptr<MaterialSystem> context;
         if (context.expired()) {
-            std::shared_ptr<MaterialSystem> new_context(new MaterialSystem());
-            context = new_context;
-            ptr     = new_context;
+            std::shared_ptr<MaterialSystem> newContext(new MaterialSystem());
+            context = newContext;
+            ptr     = newContext;
             return;
         }
 
@@ -68,35 +68,36 @@ class MaterialSystem
      * Texture functions
      * ================================
      */
-    TEXTURE_HANDLE generate_texture() const;
-    void           bind_texture(TEXTURE_HANDLE handle) const;
-    void           set_texture_parameter(const TextureParameters parameter, const TextureSetValues value) const;
-    void           write_texture_to_active(const int width, const int height, const void *buffer) const;
-    void           generate_mipmaps() const;
-    void           set_active_texture_slot(const size_t slot) const;
-    void           delete_texture(TEXTURE_HANDLE handle) const;
+    [[nodiscard]] TEXTURE_HANDLE GenerateTexture() const;
+
+    void BindTexture(TEXTURE_HANDLE handle) const;
+    void SetTextureParameter(const TextureParameters parameter, const TextureSetValues value) const;
+    void WriteTextureToActive(const int width, const int height, const void *buffer) const;
+    void GenerateMipmaps() const;
+    void SetActiveTextureSlot(const size_t slot) const;
+    void DeleteTexture(TEXTURE_HANDLE handle) const;
 
     /*
      * ================================
      * Shader functions
      * ================================
      */
-    SHADER_HANDLE               create_shader(const ShaderType shader_type) const;
-    PROGRAM_HANDLE              create_program() const;
-    void                        write_shader_source(SHADER_HANDLE handle, const std::string &src) const;
-    void                        compile_shader(SHADER_HANDLE handle) const;
-    bool                        shader_compile_status(SHADER_HANDLE handle) const;
-    void                        attach_shader(PROGRAM_HANDLE handle, SHADER_HANDLE shader_handle) const;
-    void                        link_program(PROGRAM_HANDLE handle) const;
-    bool                        program_link_status(PROGRAM_HANDLE handle) const;
-    const std::array<char, 512> get_shader_compile_error(SHADER_HANDLE handle) const;
-    const std::array<char, 512> get_program_link_error(PROGRAM_HANDLE handle) const;
-    void                        use_program(PROGRAM_HANDLE handle) const;
-    void                        delete_shader(SHADER_HANDLE handle) const;
-    void                        delete_program(PROGRAM_HANDLE handle) const;
+    [[nodiscard]] SHADER_HANDLE               CreateShader(const ShaderType shader_type) const;
+    [[nodiscard]] PROGRAM_HANDLE              CreateProgram() const;
+    void                                      WriteShaderSource(SHADER_HANDLE handle, const std::string &src) const;
+    void                                      CompileShader(SHADER_HANDLE handle) const;
+    [[nodiscard]] bool                        ShaderCompileStatus(SHADER_HANDLE handle) const;
+    void                                      AttachShader(PROGRAM_HANDLE handle, SHADER_HANDLE shader_handle) const;
+    void                                      LinkProgram(PROGRAM_HANDLE handle) const;
+    [[nodiscard]] bool                        ProgramLinkStatus(PROGRAM_HANDLE handle) const;
+    [[nodiscard]] const std::array<char, 512> GetShaderCompileError(SHADER_HANDLE handle) const;
+    [[nodiscard]] const std::array<char, 512> GetProgramLinkError(PROGRAM_HANDLE handle) const;
+    void                                      UseProgram(PROGRAM_HANDLE handle) const;
+    void                                      DeleteShader(SHADER_HANDLE handle) const;
+    void                                      DeleteProgram(PROGRAM_HANDLE handle) const;
 
     template <typename T>
-    void set_uniform_variable(PROGRAM_HANDLE handle, const std::string_view name, T value) const
+    void SetUniformVariable(PROGRAM_HANDLE handle, const std::string_view name, T value) const
     {
         if constexpr (std::is_same_v<T, bool>)
             glUniform1i(glGetUniformLocation(handle, name.data()), static_cast<int>(value));
@@ -117,19 +118,19 @@ class MaterialSystem
      * Buffer Functions
      * ================================
      */
-    BUFFER_HANDLE       generate_buffer() const;
-    VERTEX_ARRAY_HANDLE generate_vertex_array() const;
-    void                bind_vertex_array(VERTEX_ARRAY_HANDLE handle) const;
-    void                bind_buffer(BufferType buffer_type, BUFFER_HANDLE handle) const;
-    void                unbind_vertex_array() const;
-    void                unbind_buffer(BufferType buffer_type) const;
-    void                set_attribute_pointer(u32 index, i32 count, u32 size, void *offset) const;
-    void                draw_elements(u32 size) const;
-    void                delete_buffer(BUFFER_HANDLE handle) const;
-    void                delete_vertex_array(VERTEX_ARRAY_HANDLE handle) const;
+    [[nodiscard]] BUFFER_HANDLE       GenerateBuffer() const;
+    [[nodiscard]] VERTEX_ARRAY_HANDLE GenerateVertexArray() const;
+    void                              BindVertexArray(VERTEX_ARRAY_HANDLE handle) const;
+    void                              BindBuffer(BufferType buffer_type, BUFFER_HANDLE handle) const;
+    void                              UnbindVertexArray() const;
+    void                              UnbindBuffer(BufferType buffer_type) const;
+    void                              SetAttributePointer(u32 index, i32 count, u32 size, void *offset) const;
+    void                              DrawElements(u32 size) const;
+    void                              DeleteBuffer(BUFFER_HANDLE handle) const;
+    void                              DeleteVertexArray(VERTEX_ARRAY_HANDLE handle) const;
 
-    template <sized_contiguous_range Range>
-    void write_buffer_static_data(BufferType buffer_type, Range range) const
+    template <SizedContiguousRange RANGE>
+    void WriteBufferStaticData(BufferType buffer_type, RANGE range) const
     {
         glBufferData(static_cast<GLenum>(buffer_type),
                      range.size() * sizeof((*range.begin())),
@@ -137,8 +138,8 @@ class MaterialSystem
                      GL_STATIC_DRAW);
     }
 
-    template <sized_contiguous_range Range>
-    void delete_buffers(Range range)
+    template <SizedContiguousRange RANGE>
+    void DeleteBuffers(RANGE range)
     {
         glDeleteBuffers(range.size(), &(*range.begin()));
     }
@@ -148,10 +149,10 @@ class MaterialSystem
      * Screen Functions
      * ================================
      */
-    void enable_depth_test() const;
-    void set_viewport(i32 x, i32 y, i32 width, i32 height) const;
-    void clear_with_color(f32 r, f32 g, f32 b) const;
-    void toggle_debug_wireframe() const;
+    void EnableDepthTest() const;
+    void SetViewport(i32 x, i32 y, i32 width, i32 height) const;
+    void ClearWithColor(f32 r, f32 g, f32 b) const;
+    void ToggleDebugWireframe() const;
 };
 
 #endif

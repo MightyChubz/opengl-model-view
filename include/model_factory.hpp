@@ -10,14 +10,14 @@
 class ModelFactory
 {
   public:
-    static Model create_model(const std::string_view mesh_id,
-                              const std::string_view texture_id,
-                              const std::string_view shader_id)
+    static Model CreateModel(const std::string_view mesh_id,
+                             const std::string_view texture_id,
+                             const std::string_view shader_id)
     {
-        const AssetRegistry &asset_registry = AssetRegistry::get_instance();
-        Mesh                 mesh           = asset_registry.get_mesh(mesh_id);
-        Texture              texture        = asset_registry.get_texture(texture_id);
-        Shader               shader         = asset_registry.get_shader(shader_id);
+        const AssetRegistry &assetRegistry = AssetRegistry::GetInstance();
+        Mesh                 mesh          = assetRegistry.GetMesh(mesh_id);
+        Texture              texture       = assetRegistry.GetTexture(texture_id);
+        Shader               shader        = assetRegistry.GetShader(shader_id);
         return {std::move(mesh), std::move(texture), std::move(shader)};
     }
 };

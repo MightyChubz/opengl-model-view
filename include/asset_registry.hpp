@@ -11,12 +11,12 @@
 
 class AssetRegistry
 {
-    std::unordered_map<std::string_view, Shader>  shaders;
-    std::unordered_map<std::string_view, Texture> textures;
-    std::unordered_map<std::string_view, Mesh>    meshes;
+    std::unordered_map<std::string_view, Shader>  m_shaders;
+    std::unordered_map<std::string_view, Texture> m_textures;
+    std::unordered_map<std::string_view, Mesh>    m_meshes;
 
   public:
-    static AssetRegistry &get_instance()
+    static AssetRegistry &GetInstance()
     {
         static std::unique_ptr<AssetRegistry> registry{nullptr};
         if (registry == nullptr) {
@@ -26,12 +26,12 @@ class AssetRegistry
         return *registry;
     }
 
-    void    add_shader(const std::string_view name, Shader shader);
-    void    add_texture(const std::string_view name, Texture texture);
-    void    add_mesh(const std::string_view name, Mesh mesh);
-    Shader  get_shader(const std::string_view name) const;
-    Texture get_texture(const std::string_view name) const;
-    Mesh    get_mesh(const std::string_view name) const;
+    void    AddShader(const std::string_view name, Shader shader);
+    void    AddTexture(const std::string_view name, Texture texture);
+    void    AddMesh(const std::string_view name, Mesh mesh);
+    Shader  GetShader(const std::string_view name) const;
+    Texture GetTexture(const std::string_view name) const;
+    Mesh    GetMesh(const std::string_view name) const;
 };
 
 #endif

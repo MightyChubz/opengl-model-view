@@ -2,13 +2,13 @@
 #include "SDL.h"
 #include "SDL_image.h"
 
-sdl_subsystem::sdl_subsystem()
+SdlSubsystem::SdlSubsystem()
 {
     SDL_Init(SDL_INIT_VIDEO);
     IMG_Init(IMG_INIT_PNG);
 }
 
-sdl_subsystem::~sdl_subsystem()
+SdlSubsystem::~SdlSubsystem()
 {
     IMG_Quit();
 

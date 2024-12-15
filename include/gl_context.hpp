@@ -4,11 +4,11 @@
 #include "SDL_video.h"
 #include <memory>
 
-class gl_context
+class GlContext
 {
-    std::shared_ptr<SDL_GLContext> context{nullptr};
+    std::shared_ptr<SDL_GLContext> m_context{nullptr};
 
-    static void delete_context(SDL_GLContext *context)
+    static void DeleteContext(SDL_GLContext *context)
     {
         if (context == nullptr) return;
         SDL_GL_DeleteContext(*context);
@@ -16,12 +16,12 @@ class gl_context
     }
 
   public:
-    gl_context() = default;
-    gl_context(SDL_Window *window);
+    GlContext() = default;
+    GlContext(SDL_Window *window);
 
-    constexpr const SDL_GLContext &get()
+    constexpr const SDL_GLContext &Get()
     {
-        return *context;
+        return *m_context;
     }
 };
 

@@ -11,11 +11,11 @@ class MeshLoader
 {
   public:
     struct MeshData {
-        std::vector<Vertex> vertices;
-        std::vector<u32>    indices;
+        std::vector<Vertex> m_vertices;
+        std::vector<u32>    m_indices;
     };
 
-    MeshData load_obj(const std::string_view path);
+    MeshData LoadObj(const std::string_view path);
 };
 
 #endif

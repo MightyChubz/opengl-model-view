@@ -4,7 +4,7 @@
 #include <string_view>
 #include <utility>
 
-MeshLoader::MeshData MeshLoader::load_obj(const std::string_view path)
+MeshLoader::MeshData MeshLoader::LoadObj(const std::string_view path)
 {
     rapidobj::Result data = rapidobj::ParseFile(path);
 
@@ -13,21 +13,21 @@ MeshLoader::MeshData MeshLoader::load_obj(const std::string_view path)
     SDL_Log("Total positions: %zu", data.attributes.positions.size());
     SDL_Log("Total texcoords: %zu", data.attributes.texcoords.size());
 
-    i32                             index_offset = 0;
+    i32                             indexOffset = 0;
     std::vector<u32>                indices;
     std::vector<Vertex>             vertices;
     std::unordered_map<Vertex, u32> verts;
     for (const auto &faces : data.shapes.front().mesh.num_face_vertices) {
         for (int i = 0; i < faces; ++i) {
-            rapidobj::Index idx = data.shapes.front().mesh.indices[index_offset + i];
-            Vertex          vertex;
-            vertex.vertice.x  = data.attributes.positions[idx.position_index * 3];
-            vertex.vertice.y  = data.attributes.positions[idx.position_index * 3 + 1];
-            vertex.vertice.z  = data.attributes.positions[idx.position_index * 3 + 2];
-            vertex.texcoord.x = data.attributes.texcoords[idx.texcoord_index * 2];
-            vertex.texcoord.y = data.attributes.texcoords[idx.texcoord_index * 2 + 1];
+            rapidobj::Index idx = data.shapes.front().mesh.indices[indexOffset + i];
+            Vertex          vertex{};
+            vertex.m_vertice.x  = data.attributes.positions[idx.position_index * 3];
+            vertex.m_vertice.y  = data.attributes.positions[(idx.position_index * 3) + 1];
+            vertex.m_vertice.z  = data.attributes.positions[(idx.position_index * 3) + 2];
+            vertex.m_texcoord.x = data.attributes.texcoords[idx.texcoord_index * 2];
+            vertex.m_texcoord.y = data.attributes.texcoords[(idx.texcoord_index * 2) + 1];
 
-            if (!verts.count(vertex)) {
+            if (!verts.contains(vertex)) {
                 vertices.push_back(vertex);
                 verts[vertex] = vertices.size() - 1;
             }
@@ -35,8 +35,8 @@ MeshLoader::MeshData MeshLoader::load_obj(const std::string_view path)
             indices.push_back(verts[vertex]);
         }
 
-        index_offset += faces;
+        indexOffset += faces;
     }
 
-    return {std::move(vertices), std::move(indices)};
+    return {.m_vertices = std::move(vertices), .m_indices = std::move(indices)};
 }

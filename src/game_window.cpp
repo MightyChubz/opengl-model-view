@@ -3,14 +3,14 @@
 #include "gl_context.hpp"
 #include <string_view>
 
-game_window::game_window(std::string_view title, int width, int height) : width(width), height(height)
+GameWindow::GameWindow(std::string_view title, int width, int height) : m_width(width), m_height(height)
 {
-    window.reset(SDL_CreateWindow(title.data(),
-                                  SDL_WINDOWPOS_CENTERED,
-                                  SDL_WINDOWPOS_CENTERED,
-                                  width,
-                                  height,
-                                  SDL_WINDOW_OPENGL),
-                 SDL_DestroyWindow);
-    context = gl_context(window.get());
+    m_window.reset(SDL_CreateWindow(title.data(),
+                                    SDL_WINDOWPOS_CENTERED,
+                                    SDL_WINDOWPOS_CENTERED,
+                                    width,
+                                    height,
+                                    SDL_WINDOW_OPENGL),
+                   SDL_DestroyWindow);
+    m_context = GlContext(m_window.get());
 }

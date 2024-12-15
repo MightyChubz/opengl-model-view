@@ -1,38 +1,40 @@
 #ifndef GAME_WINDOW_HPP
 #define GAME_WINDOW_HPP
 
-#include "SDL_video.h"
-#include "gl_context.hpp"
 #include <memory>
 #include <string_view>
-class game_window
+
+#include "SDL_video.h"
+#include "gl_context.hpp"
+
+class GameWindow
 {
-    std::shared_ptr<SDL_Window> window{nullptr};
-    gl_context                  context{};
-    int                         width{0};
-    int                         height{0};
+    std::shared_ptr<SDL_Window> m_window{nullptr};
+    GlContext                   m_context;
+    int                         m_width{0};
+    int                         m_height{0};
 
   public:
-    game_window(std::string_view title, int width, int height);
+    GameWindow(std::string_view title, int width, int height);
 
-    [[nodiscard]] constexpr SDL_Window *get()
+    [[nodiscard]] constexpr SDL_Window *Get()
     {
-        return window.get();
+        return m_window.get();
     }
 
-    [[nodiscard]] constexpr const SDL_GLContext &get_context()
+    [[nodiscard]] constexpr const SDL_GLContext &GetContext()
     {
-        return context.get();
+        return m_context.Get();
     }
 
-    [[nodiscard]] constexpr int get_width()
+    [[nodiscard]] constexpr int GetWidth() const
     {
-        return width;
+        return m_width;
     }
 
-    [[nodiscard]] constexpr int get_height()
+    [[nodiscard]] constexpr int GetHeight() const
     {
-        return height;
+        return m_height;
     }
 };
 

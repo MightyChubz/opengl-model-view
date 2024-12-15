@@ -7,21 +7,21 @@
 #include "material_system.hpp"
 #include "shader.hpp"
 
-void Shader::delete_program(PROGRAM_HANDLE *handle)
+void Shader::DeleteProgram(PROGRAM_HANDLE *handle)
 {
     if (handle == nullptr) return;
-    std::shared_ptr<MaterialSystem> mat_render_context;
-    MaterialSystem::get_context(mat_render_context);
-    mat_render_context->delete_program(*handle);
+    std::shared_ptr<MaterialSystem> matRenderContext;
+    MaterialSystem::GetContext(matRenderContext);
+    matRenderContext->DeleteProgram(*handle);
     delete handle;
 }
 
-SHADER_HANDLE Shader::read_shader(std::string_view filename, ShaderType shader_type)
+SHADER_HANDLE Shader::readShader(std::string_view filename, ShaderType shader_type)
 {
-    std::filesystem::path file_path(filename);
+    std::filesystem::path filePath(filename);
 
-    if (std::filesystem::exists(file_path)) {
-        std::ifstream file(file_path);
+    if (std::filesystem::exists(filePath)) {
+        std::ifstream file(filePath);
 
         if (file.is_open()) {
             std::string content((std::istreambuf_iterator<char>(file)), (std::istreambuf_iterator<char>()));
@@ -29,12 +29,12 @@ SHADER_HANDLE Shader::read_shader(std::string_view filename, ShaderType shader_t
 
             SDL_Log("Loaded shader: %s", filename.data());
 
-            SHADER_HANDLE handle = mat_render_context->create_shader(shader_type);
-            mat_render_context->write_shader_source(handle, content);
-            mat_render_context->compile_shader(handle);
+            SHADER_HANDLE handle = m_matRenderContext->CreateShader(shader_type);
+            m_matRenderContext->WriteShaderSource(handle, content);
+            m_matRenderContext->CompileShader(handle);
 
-            if (!mat_render_context->shader_compile_status(handle)) {
-                const std::array<char, 512> log = mat_render_context->get_shader_compile_error(handle);
+            if (!m_matRenderContext->ShaderCompileStatus(handle)) {
+                const std::array<char, 512> log = m_matRenderContext->GetShaderCompileError(handle);
                 SDL_Log("Error compiling shader: %s", log.data());
             }
 
@@ -44,30 +44,30 @@ SHADER_HANDLE Shader::read_shader(std::string_view filename, ShaderType shader_t
         }
     }
 
-    return std::numeric_limits<u32>().max();
+    return std::numeric_limits<unsigned int>::max();
 }
 
 Shader::Shader(const std::string_view vertex_path, const std::string_view fragment_path)
 {
-    MaterialSystem::get_context(mat_render_context);
-    SHADER_HANDLE vertex_shader   = read_shader(vertex_path, ShaderType::VERTEX);
-    SHADER_HANDLE fragment_shader = read_shader(fragment_path, ShaderType::FRAGMENT);
+    MaterialSystem::GetContext(m_matRenderContext);
+    SHADER_HANDLE vertexShader   = readShader(vertex_path, ShaderType::VERTEX);
+    SHADER_HANDLE fragmentShader = readShader(fragment_path, ShaderType::FRAGMENT);
 
-    handle.reset(new PROGRAM_HANDLE(mat_render_context->create_program()));
-    mat_render_context->attach_shader(*handle, vertex_shader);
-    mat_render_context->attach_shader(*handle, fragment_shader);
-    mat_render_context->link_program(*handle);
+    m_handle = std::make_shared<PROGRAM_HANDLE>(m_matRenderContext->CreateProgram());
+    m_matRenderContext->AttachShader(*m_handle, vertexShader);
+    m_matRenderContext->AttachShader(*m_handle, fragmentShader);
+    m_matRenderContext->LinkProgram(*m_handle);
 
-    if (!mat_render_context->program_link_status(*handle)) {
-        const std::array<char, 512> log = mat_render_context->get_program_link_error(*handle);
+    if (!m_matRenderContext->ProgramLinkStatus(*m_handle)) {
+        const std::array<char, 512> log = m_matRenderContext->GetProgramLinkError(*m_handle);
         SDL_Log("Error linking shader program: %s", log.data());
     }
 
-    mat_render_context->delete_shader(vertex_shader);
-    mat_render_context->delete_shader(fragment_shader);
+    m_matRenderContext->DeleteShader(vertexShader);
+    m_matRenderContext->DeleteShader(fragmentShader);
 }
 
-void Shader::use() const
+void Shader::Use() const
 {
-    mat_render_context->use_program(*handle);
+    m_matRenderContext->UseProgram(*m_handle);
 }

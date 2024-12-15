@@ -9,21 +9,21 @@
 
 class Shader
 {
-    std::shared_ptr<MaterialSystem> mat_render_context{nullptr};
-    static void                     delete_program(PROGRAM_HANDLE *handle);
-    SHADER_HANDLE                   read_shader(std::string_view filename, ShaderType shader_type);
-    std::shared_ptr<PROGRAM_HANDLE> handle{nullptr, delete_program};
+    std::shared_ptr<MaterialSystem> m_matRenderContext{nullptr};
+    static void                     DeleteProgram(PROGRAM_HANDLE *handle);
+    SHADER_HANDLE                   readShader(std::string_view filename, ShaderType shader_type);
+    std::shared_ptr<PROGRAM_HANDLE> m_handle{nullptr, DeleteProgram};
 
   public:
     Shader() = default;
     Shader(const std::string_view vertex_path, const std::string_view fragment_path);
 
-    void use() const;
+    void Use() const;
 
     template <typename T>
-    void set(const std::string_view name, T value) const
+    void Set(const std::string_view name, T value) const
     {
-        mat_render_context->set_uniform_variable(*handle, name, value);
+        m_matRenderContext->SetUniformVariable(*m_handle, name, value);
     }
 };
 

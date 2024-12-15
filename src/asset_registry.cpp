@@ -3,32 +3,32 @@
 
 #include "asset_registry.hpp"
 
-void AssetRegistry::add_shader(const std::string_view name, Shader shader)
+void AssetRegistry::AddShader(const std::string_view name, Shader shader)
 {
-    if (!shaders.count(name)) shaders[name] = std::move(shader);
+    if (!m_shaders.contains(name)) m_shaders[name] = std::move(shader);
 }
 
-void AssetRegistry::add_texture(const std::string_view name, Texture texture)
+void AssetRegistry::AddTexture(const std::string_view name, Texture texture)
 {
-    if (!textures.count(name)) textures[name] = std::move(texture);
+    if (!m_textures.contains(name)) m_textures[name] = std::move(texture);
 }
 
-void AssetRegistry::add_mesh(const std::string_view name, Mesh mesh)
+void AssetRegistry::AddMesh(const std::string_view name, Mesh mesh)
 {
-    if (!meshes.count(name)) meshes[name] = std::move(mesh);
+    if (!m_meshes.contains(name)) m_meshes[name] = std::move(mesh);
 }
 
-Shader AssetRegistry::get_shader(const std::string_view name) const
+Shader AssetRegistry::GetShader(const std::string_view name) const
 {
-    return shaders.at(name);
+    return m_shaders.at(name);
 }
 
-Texture AssetRegistry::get_texture(const std::string_view name) const
+Texture AssetRegistry::GetTexture(const std::string_view name) const
 {
-    return textures.at(name);
+    return m_textures.at(name);
 }
 
-Mesh AssetRegistry::get_mesh(const std::string_view name) const
+Mesh AssetRegistry::GetMesh(const std::string_view name) const
 {
-    return meshes.at(name);
+    return m_meshes.at(name);
 }

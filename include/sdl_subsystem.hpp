@@ -1,11 +1,15 @@
 #ifndef SUBSYSTEM_HPP
 #define SUBSYSTEM_HPP
 
-class sdl_subsystem
+class SdlSubsystem
 {
   public:
-    sdl_subsystem();
-    ~sdl_subsystem();
+    SdlSubsystem();
+    SdlSubsystem(const SdlSubsystem &)            = delete;
+    SdlSubsystem(SdlSubsystem &&)                 = delete;
+    SdlSubsystem &operator=(const SdlSubsystem &) = delete;
+    SdlSubsystem &operator=(SdlSubsystem &&)      = delete;
+    ~SdlSubsystem();
 };
 
 #endif

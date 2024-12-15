@@ -11,26 +11,25 @@
 
 class Texture final
 {
-    std::shared_ptr<MaterialSystem> mat_render_context{nullptr};
-    std::shared_ptr<TEXTURE_HANDLE> texture{nullptr};
+    std::shared_ptr<MaterialSystem> m_matRenderContext{nullptr};
+    std::shared_ptr<TEXTURE_HANDLE> m_texture{nullptr};
 
-    static void destruct_texture(TEXTURE_HANDLE *handle)
+    static void DestructTexture(TEXTURE_HANDLE *handle)
     {
         if (handle == nullptr) return;
-        std::shared_ptr<MaterialSystem> mat_render_context;
-        MaterialSystem::get_context(mat_render_context);
-        mat_render_context->delete_texture(*handle);
+        std::shared_ptr<MaterialSystem> matRenderContext;
+        MaterialSystem::GetContext(matRenderContext);
+        matRenderContext->DeleteTexture(*handle);
         delete handle;
     }
 
-    void flip_surface(SDL_Surface *surface, bool horizontal, bool vertical);
+    void flipSurface(SDL_Surface *surface, bool horizontal, bool vertical);
 
   public:
     Texture() = default;
     Texture(const std::string_view path);
-    ~Texture() = default;
 
-    void use(size_t slot) const;
+    void Use(size_t slot) const;
 };
 
 #endif

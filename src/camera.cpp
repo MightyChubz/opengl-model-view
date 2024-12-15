@@ -5,14 +5,14 @@
 
 Camera::Camera(const int width, const int height)
 {
-    view       = glm::lookAt(camera_position, camera_position + camera_front, camera_up);
-    projection = glm::perspective(glm::radians(45.0f),
-                                  static_cast<float>(width) / static_cast<float>(height),
-                                  0.1f,
-                                  100.0f);
+    m_view       = glm::lookAt(m_cameraPosition, m_cameraPosition + m_cameraFront, m_cameraUp);
+    m_projection = glm::perspective(glm::radians(45.0F),
+                                    static_cast<float>(width) / static_cast<float>(height),
+                                    0.1F,
+                                    100.0F);
 }
 
-void Camera::update()
+void Camera::Update()
 {
-    view = glm::lookAt(camera_position, camera_position + camera_front, camera_up);
+    m_view = glm::lookAt(m_cameraPosition, m_cameraPosition + m_cameraFront, m_cameraUp);
 }

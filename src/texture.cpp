@@ -9,24 +9,24 @@
 #include "stddefs.hpp"
 #include "texture.hpp"
 
-void Texture::flip_surface(SDL_Surface *surface, bool horizontal, bool vertical)
+void Texture::flipSurface(SDL_Surface *surface, bool horizontal, bool vertical)
 {
-    if (!surface) return;
+    if (surface == nullptr) return;
 
     SDL_LockSurface(surface);
 
-    int    pitch  = surface->pitch;
-    int    height = surface->h;
-    int    width  = surface->w;
-    Uint8 *pixels = static_cast<Uint8 *>(surface->pixels);
+    int   pitch  = surface->pitch;
+    int   height = surface->h;
+    int   width  = surface->w;
+    auto *pixels = static_cast<Uint8 *>(surface->pixels);
 
     for (int y = 0; y < height >> 1; ++y) {
         for (int x = 0; x < width; ++x) {
-            int target_y = vertical ? height - 1 - y : y;
-            int target_x = horizontal ? width - 1 - x : x;
+            int targetY = vertical ? height - 1 - y : y;
+            int targetX = horizontal ? width - 1 - x : x;
 
-            Uint8 *pixel1 = pixels + y * pitch + x * surface->format->BytesPerPixel;
-            Uint8 *pixel2 = pixels + target_y * pitch + target_x * surface->format->BytesPerPixel;
+            Uint8 *pixel1 = pixels + (y * pitch) + (x * surface->format->BytesPerPixel);
+            Uint8 *pixel2 = pixels + (targetY * pitch) + (targetX * surface->format->BytesPerPixel);
             for (int i = 0; i < surface->format->BytesPerPixel; ++i) {
                 std::swap(*pixel1++, *pixel2++);
             }
@@ -36,27 +36,27 @@ void Texture::flip_surface(SDL_Surface *surface, bool horizontal, bool vertical)
 
 Texture::Texture(const std::string_view path)
 {
-    MaterialSystem::get_context(mat_render_context);
-    TEXTURE_HANDLE texture = mat_render_context->generate_texture();
-    mat_render_context->bind_texture(texture);
-    mat_render_context->set_texture_parameter(TextureParameters::WRAP_S, TextureSetValues::REPEAT);
-    mat_render_context->set_texture_parameter(TextureParameters::WRAP_T, TextureSetValues::REPEAT);
-    mat_render_context->set_texture_parameter(TextureParameters::MIN_FILTER, TextureSetValues::LINEAR_MIPMAP);
-    mat_render_context->set_texture_parameter(TextureParameters::MAG_FILTER, TextureSetValues::LINEAR);
+    MaterialSystem::GetContext(m_matRenderContext);
+    TEXTURE_HANDLE texture = m_matRenderContext->GenerateTexture();
+    m_matRenderContext->BindTexture(texture);
+    m_matRenderContext->SetTextureParameter(TextureParameters::WRAP_S, TextureSetValues::REPEAT);
+    m_matRenderContext->SetTextureParameter(TextureParameters::WRAP_T, TextureSetValues::REPEAT);
+    m_matRenderContext->SetTextureParameter(TextureParameters::MIN_FILTER, TextureSetValues::LINEAR_MIPMAP);
+    m_matRenderContext->SetTextureParameter(TextureParameters::MAG_FILTER, TextureSetValues::LINEAR);
 
     std::unique_ptr<SDL_Surface, decltype(&SDL_FreeSurface)> image{IMG_Load(path.data()), &SDL_FreeSurface};
     if (image) {
-        flip_surface(image.get(), false, true);
+        flipSurface(image.get(), false, true);
         SDL_Log("Loaded image: %s", path.data());
-        mat_render_context->write_texture_to_active(image->w, image->h, image->pixels);
-        mat_render_context->generate_mipmaps();
+        m_matRenderContext->WriteTextureToActive(image->w, image->h, image->pixels);
+        m_matRenderContext->GenerateMipmaps();
     }
 
-    this->texture.reset(new TEXTURE_HANDLE(texture), Texture::destruct_texture);
+    this->m_texture.reset(new TEXTURE_HANDLE(texture), Texture::DestructTexture);
 }
 
-void Texture::use(size_t slot) const
+void Texture::Use(size_t slot) const
 {
-    mat_render_context->set_active_texture_slot(slot);
-    mat_render_context->bind_texture(*texture);
+    m_matRenderContext->SetActiveTextureSlot(slot);
+    m_matRenderContext->BindTexture(*m_texture);
 }

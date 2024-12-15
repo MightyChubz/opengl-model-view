@@ -7,21 +7,21 @@
 #include <utility>
 
 Model::Model(Mesh &&mesh, Texture &&texture, Shader &&shader)
-    : mesh(std::move(mesh)), texture(std::move(texture)), shader(std::move(shader))
+    : m_mesh(std::move(mesh)), m_texture(std::move(texture)), m_shader(std::move(shader))
 {
 }
 
-void Model::rotate(const float angle, const glm::vec3 axis)
+void Model::Rotate(const float angle, const glm::vec3 axis)
 {
-    model = glm::rotate(model, angle, axis);
+    m_model = glm::rotate(m_model, angle, axis);
 }
 
-void Model::render(const Camera &camera) const
+void Model::Render(const Camera &camera) const
 {
-    shader.use();
-    shader.set("model", model);
-    shader.set("view", camera.camera_view());
-    shader.set("projection", camera.projection_mat());
-    texture.use(0);
-    mesh.render();
+    m_shader.Use();
+    m_shader.Set("model", m_model);
+    m_shader.Set("view", camera.CameraView());
+    m_shader.Set("projection", camera.ProjectionMat());
+    m_texture.Use(0);
+    m_mesh.Render();
 }

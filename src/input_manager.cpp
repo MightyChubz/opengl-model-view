@@ -2,59 +2,59 @@
 #include "SDL_events.h"
 #include "glm/ext/vector_float2.hpp"
 
-glm::vec2 InputManager::mouse_relative()
+glm::vec2 InputManager::MouseRelative() const
 {
-    return {mouse_x, mouse_y};
+    return {m_mouseX, m_mouseY};
 }
 
-void InputManager::change_sensitivity(const f32 value)
+void InputManager::ChangeSensitivity(const f32 value)
 {
-    sensitivity = value;
+    m_sensitivity = value;
 }
 
-void InputManager::update_states()
+void InputManager::UpdateStates()
 {
-    for (const auto &[code, state] : input_map) {
-        if (state == InputState::RELEASED) input_map[code] = InputState::NONE;
-        if (state == InputState::PRESSED) input_map[code] = InputState::HELD;
+    for (const auto &[code, state] : m_inputMap) {
+        if (state == InputState::RELEASED) m_inputMap[code] = InputState::NONE;
+        if (state == InputState::PRESSED) m_inputMap[code] = InputState::HELD;
     }
 
-    mouse_x = 0.0f;
-    mouse_y = 0.0f;
+    m_mouseX = 0.0F;
+    m_mouseY = 0.0F;
 }
 
-void InputManager::update(const SDL_Event &event)
+void InputManager::Update(const SDL_Event &event)
 {
-    if (event.type == SDL_KEYDOWN && input_map[event.key.keysym.scancode] == InputState::NONE)
-        input_map[event.key.keysym.scancode] = InputState::PRESSED;
+    if (event.type == SDL_KEYDOWN && m_inputMap[event.key.keysym.scancode] == InputState::NONE)
+        m_inputMap[event.key.keysym.scancode] = InputState::PRESSED;
 
-    if (event.type == SDL_KEYUP && input_map[event.key.keysym.scancode] == InputState::HELD)
-        input_map[event.key.keysym.scancode] = InputState::RELEASED;
+    if (event.type == SDL_KEYUP && m_inputMap[event.key.keysym.scancode] == InputState::HELD)
+        m_inputMap[event.key.keysym.scancode] = InputState::RELEASED;
 
     if (event.type == SDL_MOUSEMOTION) {
-        mouse_x = event.motion.xrel;
-        mouse_y = -event.motion.yrel;
-        mouse_x *= sensitivity;
-        mouse_y *= sensitivity;
+        m_mouseX = event.motion.xrel;
+        m_mouseY = -event.motion.yrel;
+        m_mouseX *= m_sensitivity;
+        m_mouseY *= m_sensitivity;
     }
 }
 
-bool InputManager::is_pressed(SDL_Scancode key) const
+bool InputManager::IsPressed(SDL_Scancode key) const
 {
-    return input_map.at(key) == InputState::PRESSED;
+    return m_inputMap.at(key) == InputState::PRESSED;
 }
 
-bool InputManager::is_held(SDL_Scancode key) const
+bool InputManager::IsHeld(SDL_Scancode key) const
 {
-    return input_map.at(key) == InputState::HELD;
+    return m_inputMap.at(key) == InputState::HELD;
 }
 
-bool InputManager::is_released(SDL_Scancode key) const
+bool InputManager::IsReleased(SDL_Scancode key) const
 {
-    return input_map.at(key) == InputState::RELEASED;
+    return m_inputMap.at(key) == InputState::RELEASED;
 }
 
-bool InputManager::is_mouse_moving() const
+bool InputManager::IsMouseMoving() const
 {
-    return mouse_x < 0 || mouse_x > 0 || mouse_y < 0 || mouse_y > 0;
+    return m_mouseX < 0 || m_mouseX > 0 || m_mouseY < 0 || m_mouseY > 0;
 }

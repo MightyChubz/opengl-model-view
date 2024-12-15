@@ -1,34 +1,35 @@
 #include "mesh.hpp"
+
 #include "material_system.hpp"
 #include "mesh_loader.hpp"
 #include "vertex.hpp"
+#include <memory>
 
-Mesh::Mesh(const MeshLoader::MeshData &data)
+Mesh::Mesh(const MeshLoader::MeshData &data) : m_indiceSize(data.m_indices.size())
 {
-    MaterialSystem::get_context(mat_render_context);
-    VERTEX_ARRAY_HANDLE vao = mat_render_context->generate_vertex_array();
-    BUFFER_HANDLE       vbo = mat_render_context->generate_buffer();
-    BUFFER_HANDLE       ebo = mat_render_context->generate_buffer();
-    mat_render_context->bind_vertex_array(vao);
-    mat_render_context->bind_buffer(BufferType::ARRAY, vbo);
-    mat_render_context->write_buffer_static_data(BufferType::ARRAY, data.vertices);
-    mat_render_context->bind_buffer(BufferType::ELEMENT_ARRAY, ebo);
-    mat_render_context->write_buffer_static_data(BufferType::ELEMENT_ARRAY, data.indices);
-    mat_render_context->set_attribute_pointer(0, 3, sizeof(Vertex), static_cast<void *>(0));
-    mat_render_context->set_attribute_pointer(1,
-                                              2,
-                                              sizeof(Vertex),
-                                              reinterpret_cast<void *>(offsetof(Vertex, texcoord)));
+    MaterialSystem::GetContext(m_matRenderContext);
+    VERTEX_ARRAY_HANDLE vao = m_matRenderContext->GenerateVertexArray();
+    BUFFER_HANDLE       vbo = m_matRenderContext->GenerateBuffer();
+    BUFFER_HANDLE       ebo = m_matRenderContext->GenerateBuffer();
+    m_matRenderContext->BindVertexArray(vao);
+    m_matRenderContext->BindBuffer(BufferType::ARRAY, vbo);
+    m_matRenderContext->WriteBufferStaticData(BufferType::ARRAY, data.m_vertices);
+    m_matRenderContext->BindBuffer(BufferType::ELEMENT_ARRAY, ebo);
+    m_matRenderContext->WriteBufferStaticData(BufferType::ELEMENT_ARRAY, data.m_indices);
+    m_matRenderContext->SetAttributePointer(0, 3, sizeof(Vertex), nullptr);
+    m_matRenderContext->SetAttributePointer(1,
+                                            2,
+                                            sizeof(Vertex),
+                                            reinterpret_cast<void *>(offsetof(Vertex, m_texcoord)));
 
-    buffers.reset(new MeshBuffers(vao, vbo, ebo));
-    indice_size = data.indices.size();
+    m_buffers = std::make_shared<MeshBuffers>(vao, vbo, ebo);
 }
 
-void Mesh::render() const
+void Mesh::Render() const
 {
-    mat_render_context->bind_vertex_array(buffers->vao);
-    mat_render_context->bind_buffer(BufferType::ELEMENT_ARRAY, buffers->ebo);
-    mat_render_context->draw_elements(indice_size);
-    mat_render_context->unbind_vertex_array();
-    mat_render_context->unbind_buffer(BufferType::ELEMENT_ARRAY);
+    m_matRenderContext->BindVertexArray(m_buffers->m_vao);
+    m_matRenderContext->BindBuffer(BufferType::ELEMENT_ARRAY, m_buffers->m_ebo);
+    m_matRenderContext->DrawElements(m_indiceSize);
+    m_matRenderContext->UnbindVertexArray();
+    m_matRenderContext->UnbindBuffer(BufferType::ELEMENT_ARRAY);
 }

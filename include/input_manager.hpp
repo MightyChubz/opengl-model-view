@@ -13,30 +13,30 @@ enum class InputState : u8 { PRESSED = 0, HELD = 1, RELEASED = 2, NONE = 3 };
 
 class InputManager
 {
-    std::unordered_map<SDL_Scancode, InputState> input_map;
-    f32                                          mouse_x{0.0f};
-    f32                                          mouse_y{0.0f};
-    f32                                          sensitivity{0.1f};
+    std::unordered_map<SDL_Scancode, InputState> m_inputMap;
+    f32                                          m_mouseX{0.0F};
+    f32                                          m_mouseY{0.0F};
+    f32                                          m_sensitivity{0.1F};
 
   public:
     template <size_t T>
     InputManager(const std::array<SDL_Scancode, T> &input_array)
     {
         for (const auto &key : input_array) {
-            input_map[key] = InputState::NONE;
+            m_inputMap[key] = InputState::NONE;
         }
     }
 
-    glm::vec2 mouse_relative();
+    glm::vec2 MouseRelative() const;
 
-    void change_sensitivity(const f32 value);
+    void ChangeSensitivity(const f32 value);
 
-    void update_states();
-    void update(const SDL_Event &event);
-    bool is_pressed(SDL_Scancode key) const;
-    bool is_held(SDL_Scancode key) const;
-    bool is_released(SDL_Scancode key) const;
-    bool is_mouse_moving() const;
+    void UpdateStates();
+    void Update(const SDL_Event &event);
+    bool IsPressed(SDL_Scancode key) const;
+    bool IsHeld(SDL_Scancode key) const;
+    bool IsReleased(SDL_Scancode key) const;
+    bool IsMouseMoving() const;
 };
 
 #endif
