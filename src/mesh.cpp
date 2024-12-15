@@ -13,9 +13,9 @@ Mesh::Mesh(const MeshLoader::MeshData &data) : m_indiceSize(data.m_indices.size(
     BUFFER_HANDLE       ebo = m_matRenderContext->GenerateBuffer();
     m_matRenderContext->BindVertexArray(vao);
     m_matRenderContext->BindBuffer(BufferType::ARRAY, vbo);
-    m_matRenderContext->WriteBufferStaticData(BufferType::ARRAY, data.m_vertices);
+    m_matRenderContext->WriteStaticDataInBuffer(data.m_vertices);
     m_matRenderContext->BindBuffer(BufferType::ELEMENT_ARRAY, ebo);
-    m_matRenderContext->WriteBufferStaticData(BufferType::ELEMENT_ARRAY, data.m_indices);
+    m_matRenderContext->WriteStaticDataInBuffer(data.m_indices);
     m_matRenderContext->SetAttributePointer(0, 3, sizeof(Vertex), nullptr);
     m_matRenderContext->SetAttributePointer(1,
                                             2,
@@ -29,7 +29,8 @@ void Mesh::Render() const
 {
     m_matRenderContext->BindVertexArray(m_buffers->m_vao);
     m_matRenderContext->BindBuffer(BufferType::ELEMENT_ARRAY, m_buffers->m_ebo);
-    m_matRenderContext->DrawElements(m_indiceSize);
+    m_matRenderContext->SetTargetIndiceSize(m_indiceSize);
+    m_matRenderContext->DrawElements();
     m_matRenderContext->UnbindVertexArray();
-    m_matRenderContext->UnbindBuffer(BufferType::ELEMENT_ARRAY);
+    m_matRenderContext->UnbindBuffer();
 }
