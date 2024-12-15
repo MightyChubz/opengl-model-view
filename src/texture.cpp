@@ -40,10 +40,10 @@ Texture::Texture(const std::string_view path)
     MaterialSystem::get_context(mat_render_context);
     TEXTURE_HANDLE texture = mat_render_context->generate_texture();
     mat_render_context->bind_texture(texture);
-    mat_render_context->set_texture_parameter(TextureParameters::TEXTURE_WRAP_S, TextureSetValues::REPEAT);
-    mat_render_context->set_texture_parameter(TextureParameters::TEXTURE_WRAP_T, TextureSetValues::REPEAT);
-    mat_render_context->set_texture_parameter(TextureParameters::TEXTURE_MIN_FILTER, TextureSetValues::LINEAR_MIPMAP);
-    mat_render_context->set_texture_parameter(TextureParameters::TEXTURE_MAG_FILTER, TextureSetValues::LINEAR);
+    mat_render_context->set_texture_parameter(TextureParameters::WRAP_S, TextureSetValues::REPEAT);
+    mat_render_context->set_texture_parameter(TextureParameters::WRAP_T, TextureSetValues::REPEAT);
+    mat_render_context->set_texture_parameter(TextureParameters::MIN_FILTER, TextureSetValues::LINEAR_MIPMAP);
+    mat_render_context->set_texture_parameter(TextureParameters::MAG_FILTER, TextureSetValues::LINEAR);
 
     std::unique_ptr<SDL_Surface, decltype(&SDL_FreeSurface)> image{IMG_Load(path.data()), &SDL_FreeSurface};
     if (image) {
