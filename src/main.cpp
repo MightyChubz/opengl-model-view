@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cmath>
 #include <memory>
 #include <string_view>
@@ -30,37 +31,37 @@
 
 int main(int argc, char **argv)
 {
-    sdl_subsystem subsystem;
+    SdlSubsystem subsystem;
 
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
-    game_window window("Testing window", 1280, 720);
+    GameWindow window("Testing window", 1280, 720);
 
     SDL_SetRelativeMouseMode(SDL_TRUE);
 
-    std::shared_ptr<MaterialSystem> mat_render_context;
-    MaterialSystem::get_context(mat_render_context);
-    mat_render_context->enable_depth_test();
+    std::shared_ptr<MaterialSystem> matRenderContext;
+    MaterialSystem::GetContext(matRenderContext);
+    matRenderContext->EnableDepthTest();
 
-    MeshLoader     mesh_loader;
-    AssetRegistry &registry = AssetRegistry::get_instance();
-    registry.add_shader("default", {"vertex.vert.glsl", "fragment.frag.glsl"});
-    registry.add_texture("test", {"test.png"});
-    registry.add_mesh("sphere", {mesh_loader.load_obj("sphere.obj")});
-    registry.add_mesh("cube", {mesh_loader.load_obj("cube.obj")});
+    MeshLoader     meshLoader;
+    AssetRegistry &registry = AssetRegistry::GetInstance();
+    registry.AddShader("default", {"vertex.vert.glsl", "fragment.frag.glsl"});
+    registry.AddTexture("test", {"test.png"});
+    registry.AddMesh("sphere", {meshLoader.LoadObj("sphere.obj")});
+    registry.AddMesh("cube", {meshLoader.LoadObj("cube.obj")});
 
     // Objects
-    Camera camera(window.get_width(), window.get_height());
-    Model  model = ModelFactory::create_model("cube", "test", "default");
-    model.rotate(glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+    Camera camera(window.GetWidth(), window.GetHeight());
+    Model  model = ModelFactory::CreateModel("cube", "test", "default");
+    model.Rotate(glm::radians(-55.0F), glm::vec3(1.0F, 0.0F, 0.0F));
 
-    mat_render_context->set_viewport(0, 0, window.get_width(), window.get_height());
+    matRenderContext->SetViewport(0, 0, window.GetWidth(), window.GetHeight());
     // mat_render_context->toggle_debug_wireframe();
 
     std::array   keys = {SDL_SCANCODE_W, SDL_SCANCODE_A, SDL_SCANCODE_S, SDL_SCANCODE_D};
-    InputManager input_manager(keys);
+    InputManager inputManager(keys);
     u64          then      = SDL_GetTicks64();
     f64          elapsed   = 0;
     f64          msPerTick = 1000.0 / 60.0;
@@ -72,48 +73,48 @@ int main(int argc, char **argv)
         then = now;
 
         while (elapsed >= 1.0) {
-            input_manager.update_states();
-            while (SDL_PollEvent(&event)) {
+            inputManager.UpdateStates();
+            while (SDL_PollEvent(&event) != 0) {
                 if (event.type == SDL_QUIT ||
                     (event.type == SDL_KEYDOWN && event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)) {
                     running = false;
                 }
 
-                input_manager.update(event);
+                inputManager.Update(event);
 
-                glm::vec2 relative = input_manager.mouse_relative();
-                if (input_manager.is_mouse_moving()) {
-                    glm::vec2 &rotation = camera.angle();
+                glm::vec2 relative = inputManager.MouseRelative();
+                if (inputManager.IsMouseMoving()) {
+                    glm::vec2 &rotation = camera.Angle();
                     rotation.x += relative.x;
                     rotation.y += relative.y;
-                    if (rotation.y > 89.0f) rotation.y = 89.0f;
-                    if (rotation.y < -89.0f) rotation.y = 89.0f;
+                    rotation.y = std::min(rotation.y, 89.0F);
+                    rotation.y = std::max(rotation.y, -89.0F);
 
                     glm::vec3 direction;
                     direction.x    = std::cos(glm::radians(rotation.x)) * std::cos(glm::radians(rotation.y));
                     direction.y    = std::sin(glm::radians(rotation.y));
                     direction.z    = std::sin(glm::radians(rotation.x)) * std::cos(glm::radians(rotation.y));
-                    camera.front() = glm::normalize(direction);
+                    camera.Front() = glm::normalize(direction);
                 }
             }
 
-            const float camera_speed = 2.5f * elapsed / 100;
-            if (input_manager.is_held(SDL_SCANCODE_W)) camera.position() += camera_speed * camera.front();
-            if (input_manager.is_held(SDL_SCANCODE_S)) camera.position() -= camera_speed * camera.front();
-            if (input_manager.is_held(SDL_SCANCODE_A))
-                camera.position() -= glm::normalize(glm::cross(camera.front(), camera.up())) * camera_speed;
-            if (input_manager.is_held(SDL_SCANCODE_D))
-                camera.position() += glm::normalize(glm::cross(camera.front(), camera.up())) * camera_speed;
+            const float cameraSpeed = 2.5F * static_cast<float>(elapsed) / 100.0F;
+            if (inputManager.IsHeld(SDL_SCANCODE_W)) camera.Position() += cameraSpeed * camera.Front();
+            if (inputManager.IsHeld(SDL_SCANCODE_S)) camera.Position() -= cameraSpeed * camera.Front();
+            if (inputManager.IsHeld(SDL_SCANCODE_A))
+                camera.Position() -= glm::normalize(glm::cross(camera.Front(), camera.Up())) * cameraSpeed;
+            if (inputManager.IsHeld(SDL_SCANCODE_D))
+                camera.Position() += glm::normalize(glm::cross(camera.Front(), camera.Up())) * cameraSpeed;
 
-            model.rotate(static_cast<float>(elapsed / 100), glm::vec3(0.5, 1.0, 0.0));
-            camera.update();
+            model.Rotate(static_cast<float>(elapsed / 100), glm::vec3(0.5, 1.0, 0.0));
+            camera.Update();
 
             elapsed -= 1.0;
         }
 
-        mat_render_context->clear_with_color(0.2f, 0.3f, 0.3f);
-        model.render(camera);
-        SDL_GL_SwapWindow(window.get());
+        matRenderContext->ClearWithColor(0.2F, 0.3F, 0.3F);
+        model.Render(camera);
+        SDL_GL_SwapWindow(window.Get());
         SDL_Delay(1);
     }
 
