@@ -57,6 +57,6 @@ Texture::Texture(const std::string_view path)
 
 void Texture::use(size_t slot) const
 {
-    mat_render_context->set_active(slot);
+    mat_render_context->set_active_texture_slot(slot);
     mat_render_context->bind_texture(*texture);
 }

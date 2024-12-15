@@ -73,7 +73,7 @@ class MaterialSystem
     void           set_texture_parameter(const TextureParameters parameter, const TextureSetValues value) const;
     void           write_texture_to_active(const int width, const int height, const void *buffer) const;
     void           generate_mipmaps() const;
-    void           set_active(const size_t slot) const;
+    void           set_active_texture_slot(const size_t slot) const;
     void           delete_texture(TEXTURE_HANDLE handle) const;
 
     /*

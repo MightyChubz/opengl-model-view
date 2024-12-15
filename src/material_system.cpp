@@ -37,7 +37,7 @@ void MaterialSystem::generate_mipmaps() const
     glGenerateMipmap(GL_TEXTURE_2D);
 }
 
-void MaterialSystem::set_active(const size_t slot) const
+void MaterialSystem::set_active_texture_slot(const size_t slot) const
 {
     glActiveTexture(texture_slots[slot]);
 }
