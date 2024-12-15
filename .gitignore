@@ -1,2 +1,2 @@
-subprojects/glm-1.0.1
-subprojects/packagecache
+vendored-libs-debug
+vendored-libs-release
