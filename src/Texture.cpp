@@ -2,12 +2,12 @@
 #include <memory>
 #include <string_view>
 
+#include "MaterialSystem.hpp"
 #include "SDL_image.h"
 #include "SDL_log.h"
 #include "SDL_surface.h"
-#include "material_system.hpp"
-#include "stddefs.hpp"
-#include "texture.hpp"
+#include "StdDefs.hpp"
+#include "Texture.hpp"
 
 void Texture::flipSurface(SDL_Surface *surface, bool horizontal, bool vertical)
 {

@@ -1,8 +1,9 @@
-#include "mesh_loader.hpp"
-#include "SDL_log.h"
-#include "rapidobj.hpp"
 #include <string_view>
 #include <utility>
+
+#include "MeshLoader.hpp"
+#include "SDL_log.h"
+#include "rapidobj.hpp"
 
 MeshLoader::MeshData MeshLoader::LoadObj(const std::string_view path)
 {

@@ -1,4 +1,4 @@
-#include "input_manager.hpp"
+#include "InputManager.hpp"
 #include "SDL_events.h"
 #include "glm/ext/vector_float2.hpp"
 

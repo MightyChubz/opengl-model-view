@@ -8,7 +8,7 @@
 #include <cstddef>
 #include <string>
 
-#include "material_system.hpp"
+#include "MaterialSystem.hpp"
 
 TEXTURE_HANDLE MaterialSystem::GenerateTexture() const
 {

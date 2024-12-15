@@ -1,7 +1,7 @@
 #include <GL/glew.h>
 
+#include "GLContext.hpp"
 #include "SDL_video.h"
-#include "gl_context.hpp"
 
 GlContext::GlContext(SDL_Window *window)
 {

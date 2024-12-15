@@ -1,7 +1,8 @@
-#include "game_window.hpp"
-#include "SDL_video.h"
-#include "gl_context.hpp"
 #include <string_view>
+
+#include "GLContext.hpp"
+#include "GameWindow.hpp"
+#include "SDL_video.h"
 
 GameWindow::GameWindow(std::string_view title, int width, int height) : m_width(width), m_height(height)
 {

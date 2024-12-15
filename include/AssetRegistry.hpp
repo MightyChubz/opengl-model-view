@@ -5,9 +5,9 @@
 #include <string_view>
 #include <unordered_map>
 
-#include "mesh.hpp"
-#include "shader.hpp"
-#include "texture.hpp"
+#include "Mesh.hpp"
+#include "Shader.hpp"
+#include "Texture.hpp"
 
 class AssetRegistry
 {

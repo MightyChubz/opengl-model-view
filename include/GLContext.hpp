@@ -1,8 +1,9 @@
 #ifndef GL_CONTEXT_HPP
 #define GL_CONTEXT_HPP
 
-#include "SDL_video.h"
 #include <memory>
+
+#include "SDL_video.h"
 
 class GlContext
 {

@@ -12,11 +12,11 @@
 #include <ranges>
 #include <string>
 
+#include "StdDefs.hpp"
 #include "glm/ext/matrix_float4x4.hpp"
 #include "glm/ext/vector_float2.hpp"
 #include "glm/ext/vector_float3.hpp"
 #include "glm/gtc/type_ptr.hpp"
-#include "stddefs.hpp"
 
 template <typename T>
 concept SizedContiguousRange = std::ranges::contiguous_range<T> && std::ranges::sized_range<T>;

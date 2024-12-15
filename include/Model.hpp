@@ -1,12 +1,12 @@
 #ifndef MODEL_HPP
 #define MODEL_HPP
 
-#include "camera.hpp"
+#include "Camera.hpp"
+#include "Mesh.hpp"
+#include "Shader.hpp"
+#include "Texture.hpp"
 #include "glm/ext/matrix_float4x4.hpp"
 #include "glm/ext/vector_float3.hpp"
-#include "mesh.hpp"
-#include "shader.hpp"
-#include "texture.hpp"
 
 class Model
 {

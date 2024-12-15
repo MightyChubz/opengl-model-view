@@ -1,10 +1,11 @@
-#include "model.hpp"
-#include "camera.hpp"
-#include "glm/ext/vector_float3.hpp"
-#include "mesh.hpp"
-#include "shader.hpp"
-#include "texture.hpp"
 #include <utility>
+
+#include "Camera.hpp"
+#include "Mesh.hpp"
+#include "Model.hpp"
+#include "Shader.hpp"
+#include "Texture.hpp"
+#include "glm/ext/vector_float3.hpp"
 
 Model::Model(Mesh &&mesh, Texture &&texture, Shader &&shader)
     : m_mesh(std::move(mesh)), m_texture(std::move(texture)), m_shader(std::move(shader))

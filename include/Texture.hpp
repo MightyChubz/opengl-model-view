@@ -5,9 +5,9 @@
 #include <memory>
 #include <string_view>
 
+#include "MaterialSystem.hpp"
 #include "SDL_surface.h"
-#include "material_system.hpp"
-#include "stddefs.hpp"
+#include "StdDefs.hpp"
 
 class Texture final
 {

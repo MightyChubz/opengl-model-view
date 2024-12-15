@@ -1,7 +1,7 @@
 #include <string_view>
 #include <utility>
 
-#include "asset_registry.hpp"
+#include "AssetRegistry.hpp"
 
 void AssetRegistry::AddShader(const std::string_view name, Shader shader)
 {

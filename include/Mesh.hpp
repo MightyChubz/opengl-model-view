@@ -5,9 +5,9 @@
 #include <cstddef>
 #include <memory>
 
-#include "material_system.hpp"
-#include "mesh_loader.hpp"
-#include "stddefs.hpp"
+#include "MaterialSystem.hpp"
+#include "MeshLoader.hpp"
+#include "StdDefs.hpp"
 
 class Mesh
 {

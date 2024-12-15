@@ -6,8 +6,8 @@
 
 #include "SDL_events.h"
 #include "SDL_scancode.h"
+#include "StdDefs.hpp"
 #include "glm/ext/vector_float2.hpp"
-#include "stddefs.hpp"
 
 enum class InputState : u8 { PRESSED = 0, HELD = 1, RELEASED = 2, NONE = 3 };
 

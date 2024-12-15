@@ -4,8 +4,8 @@
 #include <memory>
 #include <string_view>
 
-#include "material_system.hpp"
-#include "stddefs.hpp"
+#include "MaterialSystem.hpp"
+#include "StdDefs.hpp"
 
 class Shader
 {

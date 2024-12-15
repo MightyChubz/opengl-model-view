@@ -4,8 +4,8 @@
 #include <memory>
 #include <string_view>
 
+#include "GLContext.hpp"
 #include "SDL_video.h"
-#include "gl_context.hpp"
 
 class GameWindow
 {

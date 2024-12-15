@@ -4,6 +4,15 @@
 #include <string_view>
 #include <strings.h>
 
+#include "AssetRegistry.hpp"
+#include "Camera.hpp"
+#include "GameWindow.hpp"
+#include "InputManager.hpp"
+#include "MaterialSystem.hpp"
+#include "Mesh.hpp"
+#include "MeshLoader.hpp"
+#include "Model.hpp"
+#include "ModelFactory.hpp"
 #include "SDL_events.h"
 #include "SDL_keyboard.h"
 #include "SDL_mouse.h"
@@ -11,23 +20,14 @@
 #include "SDL_stdinc.h"
 #include "SDL_timer.h"
 #include "SDL_video.h"
-#include "asset_registry.hpp"
-#include "camera.hpp"
-#include "game_window.hpp"
+#include "SdlSubsystem.hpp"
+#include "Shader.hpp"
+#include "StdDefs.hpp"
+#include "Texture.hpp"
 #include "glm/ext/vector_float2.hpp"
 #include "glm/ext/vector_float3.hpp"
 #include "glm/fwd.hpp"
 #include "glm/trigonometric.hpp"
-#include "input_manager.hpp"
-#include "material_system.hpp"
-#include "mesh.hpp"
-#include "mesh_loader.hpp"
-#include "model.hpp"
-#include "model_factory.hpp"
-#include "sdl_subsystem.hpp"
-#include "shader.hpp"
-#include "stddefs.hpp"
-#include "texture.hpp"
 
 int main(int argc, char **argv)
 {

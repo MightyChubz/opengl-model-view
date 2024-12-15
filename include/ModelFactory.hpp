@@ -4,8 +4,8 @@
 #include <string_view>
 #include <utility>
 
-#include "asset_registry.hpp"
-#include "model.hpp"
+#include "AssetRegistry.hpp"
+#include "Model.hpp"
 
 class ModelFactory
 {

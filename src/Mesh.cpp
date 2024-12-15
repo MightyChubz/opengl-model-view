@@ -1,9 +1,9 @@
-#include "mesh.hpp"
-
-#include "material_system.hpp"
-#include "mesh_loader.hpp"
-#include "vertex.hpp"
 #include <memory>
+
+#include "MaterialSystem.hpp"
+#include "Mesh.hpp"
+#include "MeshLoader.hpp"
+#include "Vertex.hpp"
 
 Mesh::Mesh(const MeshLoader::MeshData &data) : m_indiceSize(data.m_indices.size())
 {

@@ -3,9 +3,9 @@
 #include <memory>
 #include <string_view>
 
+#include "MaterialSystem.hpp"
 #include "SDL_log.h"
-#include "material_system.hpp"
-#include "shader.hpp"
+#include "Shader.hpp"
 
 void Shader::DeleteProgram(PROGRAM_HANDLE *handle)
 {

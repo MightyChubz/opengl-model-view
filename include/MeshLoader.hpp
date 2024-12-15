@@ -4,8 +4,8 @@
 #include <string_view>
 #include <vector>
 
-#include "stddefs.hpp"
-#include "vertex.hpp"
+#include "StdDefs.hpp"
+#include "Vertex.hpp"
 
 class MeshLoader
 {
