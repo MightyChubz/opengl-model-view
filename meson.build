@@ -6,10 +6,10 @@ project(
 )
 
 gl_dep = dependency('gl')
-glew_dep = dependency('glew')
-sdl2_dep = dependency('sdl2')
-sdl2_image_dep = dependency('sdl2_image')
-glm_dep = dependency('glm')
+glew_dep = dependency('glew', version: '2.2.0')
+sdl2_dep = dependency('sdl2', version: '2.28.3')
+sdl2_image_dep = dependency('sdl2_image', version: '2.8.2')
+glm_dep = dependency('glm', version: 'cci.20230113')
 
 deps = [gl_dep, glew_dep, sdl2_dep, sdl2_image_dep, glm_dep]
 
