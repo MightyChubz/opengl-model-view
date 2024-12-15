@@ -15,19 +15,19 @@ void Texture::flipSurface(SDL_Surface *surface, bool horizontal, bool vertical)
 
     SDL_LockSurface(surface);
 
-    int   pitch  = surface->pitch;
-    int   height = surface->h;
-    int   width  = surface->w;
+    i32   pitch  = surface->pitch;
+    i32   height = surface->h;
+    i32   width  = surface->w;
     auto *pixels = static_cast<Uint8 *>(surface->pixels);
 
-    for (int y = 0; y < height >> 1; ++y) {
-        for (int x = 0; x < width; ++x) {
-            int targetY = vertical ? height - 1 - y : y;
-            int targetX = horizontal ? width - 1 - x : x;
+    for (i32 y = 0; y < height >> 1; ++y) {
+        for (i32 x = 0; x < width; ++x) {
+            i32 targetY = vertical ? height - 1 - y : y;
+            i32 targetX = horizontal ? width - 1 - x : x;
 
             Uint8 *pixel1 = pixels + (y * pitch) + (x * surface->format->BytesPerPixel);
             Uint8 *pixel2 = pixels + (targetY * pitch) + (targetX * surface->format->BytesPerPixel);
-            for (int i = 0; i < surface->format->BytesPerPixel; ++i) {
+            for (i32 i = 0; i < surface->format->BytesPerPixel; ++i) {
                 std::swap(*pixel1++, *pixel2++);
             }
         }
