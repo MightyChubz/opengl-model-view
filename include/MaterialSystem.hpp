@@ -50,7 +50,7 @@ class MaterialSystem
     };
 
     BufferType m_boundBufferType{BufferType::NONE};
-    u32        m_targetIndiceSize;
+    u32        m_targetIndiceSize{};
 
   public:
     static void GetContext(std::shared_ptr<MaterialSystem> &ptr)
