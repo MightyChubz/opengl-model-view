@@ -1,6 +1,7 @@
 #ifndef MATERIAL_SYSTEM_HPP
 #define MATERIAL_SYSTEM_HPP
 
+// This needs to be included first before gl.h and glext.h
 #include <GL/glew.h>
 
 #include <GL/gl.h>
