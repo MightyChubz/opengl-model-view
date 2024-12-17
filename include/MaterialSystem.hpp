@@ -138,8 +138,8 @@ class MaterialSystem
     {
         if (m_boundBufferType == BufferType::NONE) return;
         glBufferData(static_cast<GLenum>(m_boundBufferType),
-                     range.size() * sizeof((*range.begin())),
-                     &(*range.begin()),
+                     std::ranges::size(range) * sizeof((*std::ranges::begin(range))),
+                     &(*std::ranges::begin(range)),
                      GL_STATIC_DRAW);
     }
 
