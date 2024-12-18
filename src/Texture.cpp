@@ -9,7 +9,7 @@
 #include "StdDefs.hpp"
 #include "Texture.hpp"
 
-void Texture::flipSurface(SDL_Surface *surface, bool horizontal, bool vertical)
+void Texture::FlipSurface(SDL_Surface *surface, const bool horizontal, const bool vertical)
 {
     if (surface == nullptr) return;
 
@@ -46,7 +46,7 @@ Texture::Texture(const std::string_view path)
 
     std::unique_ptr<SDL_Surface, decltype(&SDL_FreeSurface)> image{IMG_Load(path.data()), &SDL_FreeSurface};
     if (image) {
-        flipSurface(image.get(), false, true);
+        FlipSurface(image.get(), false, true);
         SDL_Log("Loaded image: %s", path.data());
         m_matRenderContext->WriteTextureToActive(image->w, image->h, image->pixels);
         m_matRenderContext->GenerateMipmaps();

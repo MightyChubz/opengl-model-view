@@ -23,7 +23,7 @@ class Texture final
         delete handle;
     }
 
-    void flipSurface(SDL_Surface *surface, bool horizontal, bool vertical);
+    static void FlipSurface(SDL_Surface *surface, const bool horizontal, const bool vertical);
 
   public:
     Texture() = default;
