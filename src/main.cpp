@@ -32,10 +32,6 @@
 int main(int argc, char **argv)
 {
     SdlSubsystem subsystem;
-
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     if (!subsystem.IsInitialized()) return 0;
 
     GameWindow window("Testing window", 1280, 720);
