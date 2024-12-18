@@ -68,8 +68,9 @@ int main(int argc, char **argv)
         while (elapsed >= 1.0) {
             inputManager.UpdateStates();
             while (SDL_PollEvent(&event) != 0) {
-                if (event.type == SDL_QUIT ||
-                    (event.type == SDL_KEYDOWN && event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)) {
+                bool shouldClose = event.type == SDL_QUIT ||
+                                   (event.type == SDL_KEYDOWN && event.key.keysym.scancode == SDL_SCANCODE_ESCAPE);
+                if (shouldClose) {
                     running = false;
                 }
 
