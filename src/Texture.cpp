@@ -32,6 +32,8 @@ void Texture::FlipSurface(SDL_Surface *surface, const bool horizontal, const boo
             }
         }
     }
+
+    SDL_UnlockSurface(surface);
 }
 
 Texture::Texture(const std::string_view path)
