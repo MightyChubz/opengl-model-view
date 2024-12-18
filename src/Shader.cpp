@@ -34,7 +34,7 @@ SHADER_HANDLE Shader::readShader(std::string_view filename, ShaderType shader_ty
             m_matRenderContext->CompileShader(handle);
 
             if (!m_matRenderContext->ShaderCompileStatus(handle)) {
-                const std::array<char, 512> log = m_matRenderContext->GetShaderCompileError(handle);
+                const std::string_view log = m_matRenderContext->GetShaderCompileError(handle);
                 SDL_Log("Error compiling shader: %s", log.data());
             }
 
@@ -59,7 +59,7 @@ Shader::Shader(const std::string_view vertex_path, const std::string_view fragme
     m_matRenderContext->LinkProgram(*m_handle);
 
     if (!m_matRenderContext->ProgramLinkStatus(*m_handle)) {
-        const std::array<char, 512> log = m_matRenderContext->GetProgramLinkError(*m_handle);
+        const std::string_view log = m_matRenderContext->GetProgramLinkError(*m_handle);
         SDL_Log("Error linking shader program: %s", log.data());
     }
 

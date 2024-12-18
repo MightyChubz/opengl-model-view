@@ -11,6 +11,7 @@
 #include <memory>
 #include <ranges>
 #include <string>
+#include <string_view>
 
 #include "StdDefs.hpp"
 #include "glm/ext/matrix_float4x4.hpp"
@@ -74,19 +75,19 @@ class MaterialSystem final
      * Shader functions
      * ================================
      */
-    [[nodiscard]] SHADER_HANDLE               CreateShader(const ShaderType shader_type) const;
-    [[nodiscard]] PROGRAM_HANDLE              CreateProgram() const;
-    void                                      WriteShaderSource(SHADER_HANDLE handle, const std::string &src) const;
-    void                                      CompileShader(SHADER_HANDLE handle) const;
-    [[nodiscard]] bool                        ShaderCompileStatus(SHADER_HANDLE handle) const;
-    void                                      AttachShader(PROGRAM_HANDLE handle, SHADER_HANDLE shader_handle) const;
-    void                                      LinkProgram(PROGRAM_HANDLE handle) const;
-    [[nodiscard]] bool                        ProgramLinkStatus(PROGRAM_HANDLE handle) const;
-    [[nodiscard]] const std::array<char, 512> GetShaderCompileError(SHADER_HANDLE handle) const;
-    [[nodiscard]] const std::array<char, 512> GetProgramLinkError(PROGRAM_HANDLE handle) const;
-    void                                      UseProgram(PROGRAM_HANDLE handle) const;
-    void                                      DeleteShader(SHADER_HANDLE handle) const;
-    void                                      DeleteProgram(PROGRAM_HANDLE handle) const;
+    [[nodiscard]] SHADER_HANDLE          CreateShader(const ShaderType shader_type) const;
+    [[nodiscard]] PROGRAM_HANDLE         CreateProgram() const;
+    void                                 WriteShaderSource(SHADER_HANDLE handle, const std::string &src) const;
+    void                                 CompileShader(SHADER_HANDLE handle) const;
+    [[nodiscard]] bool                   ShaderCompileStatus(SHADER_HANDLE handle) const;
+    void                                 AttachShader(PROGRAM_HANDLE handle, SHADER_HANDLE shader_handle) const;
+    void                                 LinkProgram(PROGRAM_HANDLE handle) const;
+    [[nodiscard]] bool                   ProgramLinkStatus(PROGRAM_HANDLE handle) const;
+    [[nodiscard]] const std::string_view GetShaderCompileError(SHADER_HANDLE handle) const;
+    [[nodiscard]] const std::string_view GetProgramLinkError(PROGRAM_HANDLE handle) const;
+    void                                 UseProgram(PROGRAM_HANDLE handle) const;
+    void                                 DeleteShader(SHADER_HANDLE handle) const;
+    void                                 DeleteProgram(PROGRAM_HANDLE handle) const;
 
     template <typename T>
     void SetUniformVariable(PROGRAM_HANDLE handle, const std::string_view name, T value) const

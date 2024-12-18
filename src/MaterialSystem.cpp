@@ -7,6 +7,7 @@
 #include <array>
 #include <cstddef>
 #include <string>
+#include <string_view>
 
 #include "MaterialSystem.hpp"
 
@@ -105,20 +106,20 @@ bool MaterialSystem::ProgramLinkStatus(PROGRAM_HANDLE handle) const
     return success;
 }
 
-const std::array<char, 512> MaterialSystem::GetShaderCompileError(SHADER_HANDLE handle) const
+const std::string_view MaterialSystem::GetShaderCompileError(SHADER_HANDLE handle) const
 {
-    std::array<char, 512> infoLog{};
+    static std::array<char, 512> infoLog{};
     std::ranges::fill(infoLog, 0);
     glGetShaderInfoLog(handle, infoLog.size(), nullptr, infoLog.data());
-    return infoLog;
+    return {infoLog.begin(), infoLog.end()};
 }
 
-const std::array<char, 512> MaterialSystem::GetProgramLinkError(PROGRAM_HANDLE handle) const
+const std::string_view MaterialSystem::GetProgramLinkError(PROGRAM_HANDLE handle) const
 {
-    std::array<char, 512> infoLog{};
+    static std::array<char, 512> infoLog{};
     std::ranges::fill(infoLog, 0);
     glGetProgramInfoLog(handle, infoLog.size(), nullptr, infoLog.data());
-    return infoLog;
+    return {infoLog.begin(), infoLog.end()};
 }
 
 void MaterialSystem::UseProgram(PROGRAM_HANDLE handle) const
