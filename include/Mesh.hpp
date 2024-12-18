@@ -9,7 +9,7 @@
 #include "MeshLoader.hpp"
 #include "StdDefs.hpp"
 
-class Mesh
+class Mesh final
 {
     struct MeshBuffers {
         VERTEX_ARRAY_HANDLE m_vao;

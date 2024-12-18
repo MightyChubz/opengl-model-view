@@ -7,7 +7,7 @@
 #include "StdDefs.hpp"
 #include "Vertex.hpp"
 
-class MeshLoader
+class MeshLoader final
 {
   public:
     struct MeshData {

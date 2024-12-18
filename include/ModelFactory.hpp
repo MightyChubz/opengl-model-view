@@ -7,7 +7,7 @@
 #include "AssetRegistry.hpp"
 #include "Model.hpp"
 
-class ModelFactory
+class ModelFactory final
 {
   public:
     static Model CreateModel(const std::string_view mesh_id,

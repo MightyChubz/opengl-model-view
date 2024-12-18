@@ -7,7 +7,7 @@
 #include "GLContext.hpp"
 #include "SDL_video.h"
 
-class GameWindow
+class GameWindow final
 {
     std::shared_ptr<SDL_Window> m_window{nullptr};
     GlContext                   m_context;

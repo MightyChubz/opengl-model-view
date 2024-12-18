@@ -5,7 +5,7 @@
 
 #include "SDL_video.h"
 
-class GlContext
+class GlContext final
 {
     std::shared_ptr<SDL_GLContext> m_context{nullptr};
 

@@ -8,7 +8,7 @@
 #include "glm/ext/matrix_float4x4.hpp"
 #include "glm/ext/vector_float3.hpp"
 
-class Model
+class Model final
 {
     glm::mat4 m_model{glm::mat4(1.0)};
     Mesh      m_mesh;

@@ -1,7 +1,6 @@
 #ifndef INPUT_MANAGER_HPP
 #define INPUT_MANAGER_HPP
 
-#include <cstddef>
 #include <ranges>
 #include <unordered_map>
 
@@ -12,7 +11,7 @@
 
 enum class InputState : u8 { PRESSED = 0, HELD = 1, RELEASED = 2, NONE = 3 };
 
-class InputManager
+class InputManager final
 {
     std::unordered_map<SDL_Scancode, InputState> m_inputMap;
     f32                                          m_mouseX{0.0F};

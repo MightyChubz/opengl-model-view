@@ -7,7 +7,7 @@
 #include "MaterialSystem.hpp"
 #include "StdDefs.hpp"
 
-class Shader
+class Shader final
 {
     std::shared_ptr<MaterialSystem> m_matRenderContext{nullptr};
     std::shared_ptr<PROGRAM_HANDLE> m_handle{nullptr, DeleteProgram};

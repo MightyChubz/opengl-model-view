@@ -40,7 +40,7 @@ enum class ShaderType { FRAGMENT = GL_FRAGMENT_SHADER, VERTEX = GL_VERTEX_SHADER
 
 enum class BufferType { ARRAY = GL_ARRAY_BUFFER, ELEMENT_ARRAY = GL_ELEMENT_ARRAY_BUFFER, NONE = -1 };
 
-class MaterialSystem
+class MaterialSystem final
 {
     static constexpr std::array TEXTURE_SLOTS = {
         GL_TEXTURE0,  GL_TEXTURE1,  GL_TEXTURE2,  GL_TEXTURE3,  GL_TEXTURE4,  GL_TEXTURE5,  GL_TEXTURE6,  GL_TEXTURE7,

@@ -1,7 +1,7 @@
 #ifndef SUBSYSTEM_HPP
 #define SUBSYSTEM_HPP
 
-class SdlSubsystem
+class SdlSubsystem final
 {
     bool m_successfulInit{true};
 

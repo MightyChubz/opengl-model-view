@@ -9,7 +9,7 @@
 #include "Shader.hpp"
 #include "Texture.hpp"
 
-class AssetRegistry
+class AssetRegistry final
 {
     std::unordered_map<std::string_view, Shader>  m_shaders;
     std::unordered_map<std::string_view, Texture> m_textures;
