@@ -1,7 +1,6 @@
 #ifndef ASSET_REGISTRY_HPP
 #define ASSET_REGISTRY_HPP
 
-#include <memory>
 #include <string_view>
 #include <unordered_map>
 
@@ -16,15 +15,7 @@ class AssetRegistry final
     std::unordered_map<std::string_view, Mesh>    m_meshes;
 
   public:
-    static AssetRegistry &GetInstance()
-    {
-        static std::unique_ptr<AssetRegistry> registry{nullptr};
-        if (registry == nullptr) {
-            registry = std::make_unique<AssetRegistry>();
-        }
-
-        return *registry;
-    }
+    static AssetRegistry &GetInstance();
 
     void    AddShader(const std::string_view name, Shader shader);
     void    AddTexture(const std::string_view name, Texture texture);

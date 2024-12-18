@@ -53,18 +53,7 @@ class MaterialSystem final
     u32        m_targetIndiceSize{};
 
   public:
-    static void GetContext(std::shared_ptr<MaterialSystem> &ptr)
-    {
-        static std::weak_ptr<MaterialSystem> context;
-        if (context.expired()) {
-            std::shared_ptr<MaterialSystem> newContext(new MaterialSystem());
-            context = newContext;
-            ptr     = newContext;
-            return;
-        }
-
-        ptr = context.lock();
-    }
+    static void GetContext(std::shared_ptr<MaterialSystem> &ptr);
 
     /*
      * ================================

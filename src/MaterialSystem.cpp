@@ -10,6 +10,19 @@
 
 #include "MaterialSystem.hpp"
 
+void MaterialSystem::GetContext(std::shared_ptr<MaterialSystem> &ptr)
+{
+    static std::weak_ptr<MaterialSystem> context;
+    if (context.expired()) {
+        std::shared_ptr<MaterialSystem> newContext(new MaterialSystem());
+        context = newContext;
+        ptr     = newContext;
+        return;
+    }
+
+    ptr = context.lock();
+}
+
 TEXTURE_HANDLE MaterialSystem::GenerateTexture() const
 {
     TEXTURE_HANDLE handle = 0;

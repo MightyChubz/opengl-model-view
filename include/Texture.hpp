@@ -14,15 +14,7 @@ class Texture final
     std::shared_ptr<MaterialSystem> m_matRenderContext{nullptr};
     std::shared_ptr<TEXTURE_HANDLE> m_texture{nullptr};
 
-    static void DestructTexture(const TEXTURE_HANDLE *handle)
-    {
-        if (handle == nullptr) return;
-        std::shared_ptr<MaterialSystem> matRenderContext;
-        MaterialSystem::GetContext(matRenderContext);
-        matRenderContext->DeleteTexture(*handle);
-        delete handle;
-    }
-
+    static void DestructTexture(const TEXTURE_HANDLE *handle);
     static void FlipSurface(SDL_Surface *surface, const bool horizontal, const bool vertical);
 
   public:

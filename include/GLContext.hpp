@@ -9,12 +9,7 @@ class GlContext final
 {
     std::shared_ptr<SDL_GLContext> m_context{nullptr};
 
-    static void DeleteContext(SDL_GLContext *context)
-    {
-        if (context == nullptr) return;
-        SDL_GL_DeleteContext(*context);
-        delete context;
-    }
+    static void DeleteContext(SDL_GLContext *context);
 
   public:
     GlContext() = default;

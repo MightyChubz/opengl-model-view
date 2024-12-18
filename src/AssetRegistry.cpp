@@ -3,6 +3,13 @@
 
 #include "AssetRegistry.hpp"
 
+AssetRegistry &AssetRegistry::GetInstance()
+{
+    static std::unique_ptr<AssetRegistry> registry{nullptr};
+    if (registry == nullptr) registry = std::make_unique<AssetRegistry>();
+    return *registry;
+}
+
 void AssetRegistry::AddShader(const std::string_view name, Shader shader)
 {
     if (!m_shaders.contains(name)) m_shaders[name] = std::move(shader);

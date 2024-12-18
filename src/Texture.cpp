@@ -9,6 +9,15 @@
 #include "StdDefs.hpp"
 #include "Texture.hpp"
 
+void Texture::DestructTexture(const TEXTURE_HANDLE *handle)
+{
+    if (handle == nullptr) return;
+    std::shared_ptr<MaterialSystem> matRenderContext;
+    MaterialSystem::GetContext(matRenderContext);
+    matRenderContext->DeleteTexture(*handle);
+    delete handle;
+}
+
 void Texture::FlipSurface(SDL_Surface *surface, const bool horizontal, const bool vertical)
 {
     if (surface == nullptr) return;
