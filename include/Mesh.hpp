@@ -42,6 +42,7 @@ class Mesh
   public:
     Mesh() = default;
     Mesh(const MeshLoader::MeshData &data);
+
     void Render() const;
 };
 
