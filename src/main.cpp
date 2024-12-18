@@ -113,7 +113,7 @@ int main(int argc, char **argv)
 
         matRenderContext->ClearWithColor(0.2F, 0.3F, 0.3F);
         model.Render(camera);
-        SDL_GL_SwapWindow(window.Get());
+        window.SwapBuffer();
         SDL_Delay(1);
     }
 

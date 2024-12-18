@@ -38,6 +38,8 @@ class GameWindow
     }
 
     void SetRelativeMouseMode(bool value) const;
+
+    void SwapBuffer() const;
 };
 
 #endif

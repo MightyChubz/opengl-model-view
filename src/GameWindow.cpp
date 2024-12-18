@@ -22,3 +22,8 @@ void GameWindow::SetRelativeMouseMode(bool value) const
 {
     SDL_SetRelativeMouseMode(value ? SDL_TRUE : SDL_FALSE);
 }
+
+void GameWindow::SwapBuffer() const
+{
+    SDL_GL_SwapWindow(m_window.get());
+}
