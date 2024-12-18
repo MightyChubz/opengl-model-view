@@ -36,6 +36,8 @@ class GameWindow
     {
         return m_height;
     }
+
+    void SetRelativeMouseMode(bool value) const;
 };
 
 #endif

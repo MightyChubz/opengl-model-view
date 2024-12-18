@@ -39,8 +39,7 @@ int main(int argc, char **argv)
     if (!subsystem.IsInitialized()) return 0;
 
     GameWindow window("Testing window", 1280, 720);
-
-    SDL_SetRelativeMouseMode(SDL_TRUE);
+    window.SetRelativeMouseMode(true);
 
     std::shared_ptr<MaterialSystem> matRenderContext;
     MaterialSystem::GetContext(matRenderContext);
