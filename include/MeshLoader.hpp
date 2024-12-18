@@ -15,7 +15,7 @@ class MeshLoader
         std::vector<u32>    m_indices;
     };
 
-    MeshData LoadObj(const std::string_view path);
+    static MeshData LoadObj(const std::string_view path);
 };
 
 #endif

@@ -46,12 +46,11 @@ int main(int argc, char **argv)
     MaterialSystem::GetContext(matRenderContext);
     matRenderContext->EnableDepthTest();
 
-    MeshLoader     meshLoader;
     AssetRegistry &registry = AssetRegistry::GetInstance();
     registry.AddShader("default", {"vertex.vert.glsl", "fragment.frag.glsl"});
     registry.AddTexture("test", {"test.png"});
-    registry.AddMesh("sphere", {meshLoader.LoadObj("sphere.obj")});
-    registry.AddMesh("cube", {meshLoader.LoadObj("cube.obj")});
+    registry.AddMesh("sphere", {MeshLoader::LoadObj("sphere.obj")});
+    registry.AddMesh("cube", {MeshLoader::LoadObj("cube.obj")});
 
     // Objects
     Camera camera(window.GetWidth(), window.GetHeight());
