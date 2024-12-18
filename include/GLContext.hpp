@@ -20,7 +20,7 @@ class GlContext
     GlContext() = default;
     GlContext(SDL_Window *window);
 
-    constexpr const SDL_GLContext &Get()
+    [[nodiscard]] constexpr const SDL_GLContext &Get() const
     {
         return *m_context;
     }
