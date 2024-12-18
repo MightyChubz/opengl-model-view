@@ -32,8 +32,8 @@ void InputManager::Update(const SDL_Event &event)
         m_inputMap[event.key.keysym.scancode] = InputState::RELEASED;
 
     if (event.type == SDL_MOUSEMOTION) {
-        m_mouseX = event.motion.xrel;
-        m_mouseY = -event.motion.yrel;
+        m_mouseX = static_cast<float>(event.motion.xrel);
+        m_mouseY = static_cast<float>(-event.motion.yrel);
         m_mouseX *= m_sensitivity;
         m_mouseY *= m_sensitivity;
     }
