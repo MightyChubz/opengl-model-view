@@ -59,8 +59,8 @@ int main(int argc, char **argv)
 
     matRenderContext->SetViewport(0, 0, window.GetWidth(), window.GetHeight());
 
-    std::array   keys = {SDL_SCANCODE_W, SDL_SCANCODE_A, SDL_SCANCODE_S, SDL_SCANCODE_D, SDL_SCANCODE_G};
-    InputManager inputManager(keys);
+    auto         inputMap = {SDL_SCANCODE_W, SDL_SCANCODE_A, SDL_SCANCODE_S, SDL_SCANCODE_D, SDL_SCANCODE_G};
+    InputManager inputManager(inputMap);
     u64          then      = SDL_GetTicks64();
     f64          elapsed   = 0;
     f64          msPerTick = 1000.0 / 60.0;

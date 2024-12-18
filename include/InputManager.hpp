@@ -2,6 +2,7 @@
 #define INPUT_MANAGER_HPP
 
 #include <cstddef>
+#include <ranges>
 #include <unordered_map>
 
 #include "SDL_events.h"
@@ -19,10 +20,10 @@ class InputManager
     f32                                          m_sensitivity{0.1F};
 
   public:
-    template <size_t T>
-    InputManager(const std::array<SDL_Scancode, T> &input_array)
+    template <std::ranges::sized_range RANGE>
+    InputManager(RANGE input_map_array)
     {
-        for (const auto &key : input_array) {
+        for (const auto &key : input_map_array) {
             m_inputMap[key] = InputState::NONE;
         }
     }
