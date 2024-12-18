@@ -15,23 +15,23 @@ struct Vertex {
     {
     }
 
-    bool operator==(const Vertex &v) const
+    bool operator==(const Vertex &rhs) const
     {
-        return m_vertice.x == v.m_vertice.x && m_vertice.y == v.m_vertice.y && m_vertice.z == v.m_vertice.z &&
-               m_texcoord.x == v.m_texcoord.x && m_texcoord.y == v.m_texcoord.y;
+        return m_vertice.x == rhs.m_vertice.x && m_vertice.y == rhs.m_vertice.y && m_vertice.z == rhs.m_vertice.z &&
+               m_texcoord.x == rhs.m_texcoord.x && m_texcoord.y == rhs.m_texcoord.y;
     }
 };
 
 template <>
 struct std::hash<Vertex> {
-    size_t operator()(const Vertex &v) const noexcept
+    size_t operator()(const Vertex &vert) const noexcept
     {
-        size_t h1 = std::hash<float>{}(v.m_vertice.x);
-        size_t h2 = std::hash<float>{}(v.m_vertice.y);
-        size_t h3 = std::hash<float>{}(v.m_vertice.z);
-        size_t h4 = std::hash<float>{}(v.m_texcoord.x);
-        size_t h5 = std::hash<float>{}(v.m_texcoord.y);
-        return h1 ^ (h2 << 1) ^ (h3 << 2) ^ (h4 << 3) ^ (h5 << 4);
+        size_t hash1 = std::hash<float>{}(vert.m_vertice.x);
+        size_t hash2 = std::hash<float>{}(vert.m_vertice.y);
+        size_t hash3 = std::hash<float>{}(vert.m_vertice.z);
+        size_t hash4 = std::hash<float>{}(vert.m_texcoord.x);
+        size_t hash5 = std::hash<float>{}(vert.m_texcoord.y);
+        return hash1 ^ (hash2 << 1) ^ (hash3 << 2) ^ (hash4 << 3) ^ (hash5 << 4);
     }
 };
 
