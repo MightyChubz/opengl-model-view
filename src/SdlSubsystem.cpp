@@ -4,8 +4,8 @@
 
 SdlSubsystem::SdlSubsystem()
 {
-    SDL_Init(SDL_INIT_VIDEO);
-    IMG_Init(IMG_INIT_PNG);
+    if (SDL_Init(SDL_INIT_VIDEO) != 0) m_successfulInit = false;
+    if (IMG_Init(IMG_INIT_PNG) == 0) m_successfulInit = false;
 }
 
 SdlSubsystem::~SdlSubsystem()

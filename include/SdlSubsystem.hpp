@@ -3,6 +3,8 @@
 
 class SdlSubsystem
 {
+    bool m_successfulInit{true};
+
   public:
     SdlSubsystem();
     SdlSubsystem(const SdlSubsystem &)            = delete;
@@ -10,6 +12,11 @@ class SdlSubsystem
     SdlSubsystem &operator=(const SdlSubsystem &) = delete;
     SdlSubsystem &operator=(SdlSubsystem &&)      = delete;
     ~SdlSubsystem();
+
+    [[nodiscard]] constexpr bool IsInitialized() const
+    {
+        return m_successfulInit;
+    }
 };
 
 #endif
