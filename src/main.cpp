@@ -71,15 +71,15 @@ int main(int argc, char **argv)
 
                 inputManager.Update(event);
 
-                glm::vec2 relative = inputManager.MouseRelative();
+                Vec2 relative = inputManager.MouseRelative();
                 if (inputManager.IsMouseMoving()) {
-                    glm::vec3 &rotation = camera.GetRotation();
+                    Vec3 &rotation = camera.GetRotation();
                     rotation.x += relative.x;
                     rotation.y += relative.y;
                     rotation.y = std::min(rotation.y, 89.0F);
                     rotation.y = std::max(rotation.y, -89.0F);
 
-                    glm::vec3 direction;
+                    Vec3 direction;
                     direction.x    = std::cos(Radians(rotation.x)) * std::cos(Radians(rotation.y));
                     direction.y    = std::sin(Radians(rotation.y));
                     direction.z    = std::sin(Radians(rotation.x)) * std::cos(Radians(rotation.y));
