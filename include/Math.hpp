@@ -21,8 +21,8 @@ constexpr Vec3 UP_AXIS       = Vec3(0.0, 1.0, 0.0);
 constexpr Vec3 DOWN_AXIS     = Vec3(0.0, -1.0, 0.0);
 constexpr Vec3 LEFT_AXIS     = Vec3(-1.0, 0.0, 0.0);
 constexpr Vec3 RIGHT_AXIS    = Vec3(1.0, 0.0, 0.0);
-constexpr Vec3 FORWARD_AXIS  = Vec3(0.0, 0.0, 1.0);
-constexpr Vec3 BACKWARD_AXIS = Vec3(0.0, 0.0, -1.0);
+constexpr Vec3 FORWARD_AXIS  = Vec3(0.0, 0.0, -1.0);
+constexpr Vec3 BACKWARD_AXIS = Vec3(0.0, 0.0, 1.0);
 
 constexpr Matrix4 Rotate(Matrix4 &mat, float eular, Vec3 axis)
 {
