@@ -9,6 +9,7 @@
 #include "GameWindow.hpp"
 #include "InputManager.hpp"
 #include "MaterialSystem.hpp"
+#include "Math.hpp"
 #include "Mesh.hpp"
 #include "MeshLoader.hpp"
 #include "Model.hpp"
@@ -89,7 +90,7 @@ int main(int argc, char **argv)
                 }
             }
 
-            const float cameraSpeed = 2.5F * static_cast<float>(elapsed) / 100.0F;
+            const float cameraSpeed = 2.5F * static_cast<float>(elapsed) / 164.0F;
             if (inputManager.IsHeld(SDL_SCANCODE_W)) camera.Position() += cameraSpeed * camera.Front();
             if (inputManager.IsHeld(SDL_SCANCODE_S)) camera.Position() -= cameraSpeed * camera.Front();
             if (inputManager.IsHeld(SDL_SCANCODE_A))
@@ -98,7 +99,7 @@ int main(int argc, char **argv)
                 camera.Position() += glm::normalize(glm::cross(camera.Front(), camera.Up())) * cameraSpeed;
             if (inputManager.IsPressed(SDL_SCANCODE_G)) matRenderContext->ToggleDebugWireframe();
 
-            model.Rotate(static_cast<float>(elapsed / 100), glm::vec3(0.0, 1.0, 0.0));
+            model.Rotate(static_cast<float>(elapsed), UP_AXIS);
             camera.Update();
 
             elapsed -= 1.0;
