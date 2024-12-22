@@ -7,7 +7,6 @@
 #include "Shader.hpp"
 #include "Texture.hpp"
 #include "Transform.hpp"
-#include "glm/detail/qualifier.hpp"
 
 class Model final
 {
@@ -21,11 +20,11 @@ class Model final
 
     constexpr void Rotate(const float angle, const Vec3 axis)
     {
-        if (glm::equal(axis, UP_AXIS) == glm::vec<3, bool>(true, true, true))
+        if (Vec3Equal(axis, UP_AXIS))
             m_transform.GetRotation().y += angle;
-        else if (glm::equal(axis, RIGHT_AXIS) == glm::vec<3, bool>(true, true, true))
+        else if (Vec3Equal(axis, RIGHT_AXIS))
             m_transform.GetRotation().x += angle;
-        else if (glm::equal(axis, FORWARD_AXIS) == glm::vec<3, bool>(true, true, true))
+        else if (Vec3Equal(axis, FORWARD_AXIS))
             m_transform.GetRotation().z += angle;
     }
 

@@ -4,10 +4,10 @@
 #include <ranges>
 #include <unordered_map>
 
+#include "Math.hpp"
 #include "SDL_events.h"
 #include "SDL_scancode.h"
 #include "StdDefs.hpp"
-#include "glm/ext/vector_float2.hpp"
 
 enum class InputState : u8 { PRESSED = 0, HELD = 1, RELEASED = 2, NONE = 3 };
 
@@ -27,7 +27,7 @@ class InputManager final
         }
     }
 
-    glm::vec2 MouseRelative() const;
+    Vec2 MouseRelative() const;
 
     void ChangeSensitivity(const f32 value);
 

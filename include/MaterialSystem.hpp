@@ -13,11 +13,8 @@
 #include <string>
 #include <string_view>
 
+#include "Math.hpp"
 #include "StdDefs.hpp"
-#include "glm/ext/matrix_float4x4.hpp"
-#include "glm/ext/vector_float2.hpp"
-#include "glm/ext/vector_float3.hpp"
-#include "glm/gtc/type_ptr.hpp"
 
 template <typename T>
 concept SizedContiguousRange = std::ranges::contiguous_range<T> && std::ranges::sized_range<T>;
@@ -98,12 +95,12 @@ class MaterialSystem final
             glUniform1i(glGetUniformLocation(handle, name.data()), value);
         else if constexpr (std::is_same_v<T, float>)
             glUniform1f(glGetUniformLocation(handle, name.data()), value);
-        else if constexpr (std::is_same_v<T, glm::vec2>)
+        else if constexpr (std::is_same_v<T, Vec2>)
             glUniform2f(glGetUniformLocation(handle, name.data()), value.x, value.y);
-        else if constexpr (std::is_same_v<T, glm::vec3>)
+        else if constexpr (std::is_same_v<T, Vec3>)
             glUniform3f(glGetUniformLocation(handle, name.data()), value.x, value.y, value.z);
-        else if constexpr (std::is_same_v<T, glm::mat4>)
-            glUniformMatrix4fv(glGetUniformLocation(handle, name.data()), 1, GL_FALSE, glm::value_ptr(value));
+        else if constexpr (std::is_same_v<T, Matrix4>)
+            glUniformMatrix4fv(glGetUniformLocation(handle, name.data()), 1, GL_FALSE, ValuePtr(value));
     }
 
     /*

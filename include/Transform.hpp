@@ -2,7 +2,6 @@
 #define TRANSFORM_HPP
 
 #include "Math.hpp"
-#include "glm/trigonometric.hpp"
 
 class Transform
 {

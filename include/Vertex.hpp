@@ -3,22 +3,20 @@
 
 #include <functional>
 
-#include "glm/ext/vector_float2.hpp"
-#include "glm/ext/vector_float3.hpp"
+#include "Math.hpp"
 
 struct Vertex {
-    glm::vec3 m_vertice;
-    glm::vec2 m_texcoord;
+    Vec3 m_vertice;
+    Vec2 m_texcoord;
 
     Vertex() = default;
-    Vertex(glm::vec3 vertice, glm::vec2 texcoord) : m_vertice(vertice), m_texcoord(texcoord)
+    Vertex(Vec3 vertice, Vec2 texcoord) : m_vertice(vertice), m_texcoord(texcoord)
     {
     }
 
     bool operator==(const Vertex &rhs) const
     {
-        return m_vertice.x == rhs.m_vertice.x && m_vertice.y == rhs.m_vertice.y && m_vertice.z == rhs.m_vertice.z &&
-               m_texcoord.x == rhs.m_texcoord.x && m_texcoord.y == rhs.m_texcoord.y;
+        return Vec3Equal(m_vertice, rhs.m_vertice) && Vec2Equal(m_texcoord, rhs.m_texcoord);
     }
 };
 

@@ -1,8 +1,8 @@
 #include "InputManager.hpp"
+#include "Math.hpp"
 #include "SDL_events.h"
-#include "glm/ext/vector_float2.hpp"
 
-glm::vec2 InputManager::MouseRelative() const
+Vec2 InputManager::MouseRelative() const
 {
     return {m_mouseX, m_mouseY};
 }
