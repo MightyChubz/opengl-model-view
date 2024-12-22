@@ -1,12 +1,13 @@
 #ifndef MATH_HPP
 #define MATH_HPP
 
-#include "glm/detail/qualifier.hpp"
+#include "glm/ext/matrix_clip_space.hpp"
 #include "glm/ext/matrix_float4x4.hpp"
 #include "glm/ext/matrix_transform.hpp"
 #include "glm/ext/vector_float2.hpp"
 #include "glm/ext/vector_float3.hpp"
 #include "glm/ext/vector_float4.hpp"
+#include "glm/geometric.hpp"
 #include "glm/gtc/type_ptr.hpp"
 #include "glm/trigonometric.hpp"
 
@@ -54,6 +55,31 @@ constexpr bool Vec2Equal(const Vec2 &a, const Vec2 &b)
 {
     BoolVec2 result = glm::equal(a, b);
     return result == BoolVec2(true, true);
+}
+
+constexpr Matrix4 LookAt(const Vec3 &eye, const Vec3 &center)
+{
+    return glm::lookAt(eye, center, UP_AXIS);
+}
+
+constexpr float Radians(float eular)
+{
+    return glm::radians(eular);
+}
+
+constexpr Matrix4 Perspective(float fov, float aspect, float near, float far)
+{
+    return glm::perspective(Radians(fov), aspect, near, far);
+}
+
+constexpr Vec3 Cross(const Vec3 &a, const Vec3 &b)
+{
+    return glm::cross(a, b);
+}
+
+constexpr Vec3 Normalize(const Vec3 &vector)
+{
+    return glm::normalize(vector);
 }
 
 #endif
