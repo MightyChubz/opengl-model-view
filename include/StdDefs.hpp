@@ -1,3 +1,6 @@
+#ifndef STD_DEFS_HPP
+#define STD_DEFS_HPP
+
 #include <cmath>
 #include <cstdint>
 
@@ -11,3 +14,5 @@ using u32 = uint32_t;
 using u64 = uint64_t;
 using f32 = float_t;
 using f64 = double_t;
+
+#endif
