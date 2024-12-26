@@ -7,7 +7,6 @@
 
 #include "MaterialSystem.hpp"
 #include "SDL_surface.h"
-#include "StdDefs.hpp"
 
 class Texture final
 {
