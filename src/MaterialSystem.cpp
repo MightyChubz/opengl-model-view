@@ -6,13 +6,11 @@
 #include <algorithm>
 #include <array>
 #include <cstddef>
-#include <list>
-#include <map>
 #include <string>
 #include <string_view>
 
 #include "MaterialSystem.hpp"
-#include "Math.hpp"
+#include "SDL_log.h"
 
 void MaterialSystem::GetContext(std::shared_ptr<MaterialSystem> &ptr)
 {
@@ -235,4 +233,25 @@ void MaterialSystem::ToggleDebugWireframe() const
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     else
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
+
+static void ErrorHandleCallback(GLenum        source,
+                                GLenum        type,
+                                GLuint        id,
+                                GLenum        severity,
+                                GLsizei       length,
+                                const GLchar *message,
+                                const void   *userParam)
+{
+    SDL_Log("GL CALLBACK: %s type = 0x%x, severity = 0x%x, messagRe = %s",
+            type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : "",
+            type,
+            severity,
+            message);
+}
+
+void MaterialSystem::ConfigureErrorHandling() const
+{
+    glEnable(GL_DEBUG_OUTPUT);
+    glDebugMessageCallback(ErrorHandleCallback, nullptr);
 }

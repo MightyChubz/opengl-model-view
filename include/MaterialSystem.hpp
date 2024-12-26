@@ -161,6 +161,7 @@ class MaterialSystem final
     void SetViewport(i32 x, i32 y, i32 width, i32 height) const;
     void ClearWithColor(f32 r, f32 g, f32 b) const;
     void ToggleDebugWireframe() const;
+    void ConfigureErrorHandling() const;
 };
 
 #endif

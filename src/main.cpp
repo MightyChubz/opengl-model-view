@@ -39,6 +39,7 @@ int main(int argc, char **argv)
     std::shared_ptr<MaterialSystem> matRenderContext;
     MaterialSystem::GetContext(matRenderContext);
     matRenderContext->EnableDepthTest();
+    matRenderContext->ConfigureErrorHandling();
 
     AssetRegistry &registry = AssetRegistry::GetInstance();
     registry.AddShader("default", {"vertex.vert.glsl", "fragment.frag.glsl"});
