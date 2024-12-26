@@ -7,7 +7,6 @@
 
 #include "MaterialSystem.hpp"
 #include "MeshLoader.hpp"
-#include "StdDefs.hpp"
 
 class Mesh final
 {
@@ -42,6 +41,16 @@ class Mesh final
   public:
     Mesh() = default;
     Mesh(const MeshLoader::MeshData &data);
+
+    [[nodiscard]] constexpr const MeshBuffers &GetBuffers() const
+    {
+        return *m_buffers;
+    }
+
+    [[nodiscard]] constexpr size_t GetIndiceSize() const
+    {
+        return m_indiceSize;
+    }
 
     void Render() const;
 };

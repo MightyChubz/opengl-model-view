@@ -6,10 +6,13 @@
 #include <algorithm>
 #include <array>
 #include <cstddef>
+#include <list>
+#include <map>
 #include <string>
 #include <string_view>
 
 #include "MaterialSystem.hpp"
+#include "Math.hpp"
 
 void MaterialSystem::GetContext(std::shared_ptr<MaterialSystem> &ptr)
 {
@@ -187,6 +190,15 @@ void MaterialSystem::SetTargetIndiceSize(u32 size)
 void MaterialSystem::DrawElements() const
 {
     glDrawElements(GL_TRIANGLES, static_cast<i32>(m_targetIndiceSize), GL_UNSIGNED_INT, nullptr);
+}
+
+void MaterialSystem::DrawElementsInstanced(const size_t count) const
+{
+    glDrawElementsInstanced(GL_TRIANGLES,
+                            static_cast<i32>(m_targetIndiceSize),
+                            GL_UNSIGNED_INT,
+                            nullptr,
+                            static_cast<i32>(count));
 }
 
 void MaterialSystem::DeleteBuffer(BUFFER_HANDLE handle) const

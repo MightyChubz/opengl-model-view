@@ -2,7 +2,6 @@
 #define MODEL_HPP
 
 #include "Camera.hpp"
-#include "Math.hpp"
 #include "Mesh.hpp"
 #include "Shader.hpp"
 #include "Texture.hpp"
@@ -18,14 +17,29 @@ class Model final
   public:
     Model(Mesh &&mesh, Texture &&texture, Shader &&shader);
 
-    constexpr void Rotate(const float angle, const Vec3 axis)
+    constexpr Transform &GetTransform()
     {
-        if (Vec3Equal(axis, UP_AXIS))
-            m_transform.GetRotation().y += angle;
-        else if (Vec3Equal(axis, RIGHT_AXIS))
-            m_transform.GetRotation().x += angle;
-        else if (Vec3Equal(axis, FORWARD_AXIS))
-            m_transform.GetRotation().z += angle;
+        return m_transform;
+    }
+
+    [[nodiscard]] constexpr const Transform &GetTransform() const
+    {
+        return m_transform;
+    }
+
+    [[nodiscard]] constexpr const Texture &GetTexture() const
+    {
+        return m_texture;
+    }
+
+    [[nodiscard]] constexpr const Mesh &GetMesh() const
+    {
+        return m_mesh;
+    }
+
+    [[nodiscard]] constexpr const Shader &GetShader() const
+    {
+        return m_shader;
     }
 
     void Render(const Camera &camera) const;

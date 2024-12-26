@@ -117,6 +117,7 @@ class MaterialSystem final
     void                              SetAttributePointer(u32 index, i32 count, u32 size, void *offset) const;
     void                              SetTargetIndiceSize(u32 size);
     void                              DrawElements() const;
+    void                              DrawElementsInstanced(const size_t count) const;
     void                              DeleteBuffer(BUFFER_HANDLE handle) const;
     void                              DeleteVertexArray(VERTEX_ARRAY_HANDLE handle) const;
 

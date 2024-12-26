@@ -1,6 +1,11 @@
 #include <algorithm>
 #include <cmath>
+#include <cstddef>
+#include <list>
+#include <map>
 #include <memory>
+#include <ranges>
+#include <string>
 #include <string_view>
 #include <strings.h>
 
@@ -43,8 +48,13 @@ int main(int argc, char **argv)
 
     // Objects
     Camera camera(window.GetWidth(), window.GetHeight());
-    Model  model = ModelFactory::CreateModel("cube", "test", "default");
     camera.GetPosition() = Vec3(0.0F, 0.0F, 3.0F);
+    std::list<Model> models;
+    models.push_back(ModelFactory::CreateModel("cube", "test", "default"));
+    models.push_back(ModelFactory::CreateModel("sphere", "test", "default"));
+    models.push_back(ModelFactory::CreateModel("cube", "test", "default"));
+    models.front().GetTransform().GetPosition().x += 3.0F;
+    models.back().GetTransform().GetPosition().x -= 3.0F;
 
     matRenderContext->SetViewport(0, 0, window.GetWidth(), window.GetHeight());
 
@@ -96,14 +106,49 @@ int main(int argc, char **argv)
                 camera.GetPosition() += Normalize(Cross(camera.Front(), UP_AXIS)) * cameraSpeed;
             if (inputManager.IsPressed(SDL_SCANCODE_G)) matRenderContext->ToggleDebugWireframe();
 
-            model.Rotate(static_cast<float>(elapsed), UP_AXIS);
+            for (auto &model : models) {
+                model.GetTransform().GetRotation().y += static_cast<float>(elapsed);
+            }
             camera.Update();
 
             elapsed -= 1.0;
         }
 
         matRenderContext->ClearWithColor(0.2F, 0.3F, 0.3F);
-        model.Render(camera);
+        std::map<BUFFER_HANDLE, std::list<Matrix4>> instanceMap;
+        for (const auto &model : models) {
+            std::list<Matrix4> &instanceMatrixList = instanceMap[model.GetMesh().GetBuffers().m_ebo];
+            instanceMatrixList.push_back(model.GetTransform().GetModel());
+        }
+
+        for (const auto &[handle, transformList] : instanceMap) {
+            const auto &model = *std::ranges::find_if(models, [&](const auto &e) {
+                return e.GetMesh().GetBuffers().m_ebo == handle;
+            });
+
+            const Shader  &modelShader   = model.GetShader();
+            const Texture &modelTexture  = model.GetTexture();
+            const Mesh    &modelMesh     = model.GetMesh();
+            const size_t   instanceCount = transformList.size();
+            modelShader.Use();
+
+            for (const auto &[index, mat] : std::ranges::views::enumerate(transformList)) {
+                const std::string varName = "models[" + std::to_string(index) + "]";
+                modelShader.Set(varName, mat);
+            }
+
+            modelShader.Set("view", camera.CameraView());
+            modelShader.Set("projection", camera.ProjectionMat());
+            modelTexture.Use(0);
+
+            matRenderContext->BindVertexArray(modelMesh.GetBuffers().m_vao);
+            matRenderContext->BindBuffer(BufferType::ELEMENT_ARRAY, modelMesh.GetBuffers().m_ebo);
+            matRenderContext->SetTargetIndiceSize(modelMesh.GetIndiceSize());
+            matRenderContext->DrawElementsInstanced(instanceCount);
+            matRenderContext->UnbindVertexArray();
+            matRenderContext->UnbindBuffer();
+        }
+
         window.SwapBuffer();
         SDL_Delay(1);
     }
