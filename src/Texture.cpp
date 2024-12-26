@@ -55,6 +55,7 @@ Texture::Texture(const std::string_view path)
     m_matRenderContext->SetTextureParameter(TextureParameters::MIN_FILTER,
                                             TextureSetValues::FILTER_LINEAR_MIPMAP_LINEAR);
     m_matRenderContext->SetTextureParameter(TextureParameters::MAG_FILTER, TextureSetValues::FILTER_LINEAR);
+    m_matRenderContext->SetTextureParameter(TextureParameters::MAX_ANISOTROPHY, TextureSetValues::ANISOTROPHY_X8);
 
     std::unique_ptr<SDL_Surface, decltype(&SDL_FreeSurface)> image{IMG_Load(path.data()), &SDL_FreeSurface};
     if (image) {
