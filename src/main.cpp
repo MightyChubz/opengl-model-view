@@ -121,18 +121,17 @@ int main(int argc, char **argv)
             instanceMatrixList.push_back(model.GetTransform().GetModel());
         }
 
-        for (const auto &[handle, transformList] : instanceMap) {
-            const auto &model = *std::ranges::find_if(models, [&](const auto &e) {
-                return e.GetMesh().GetBuffers().m_ebo == handle;
-            });
-
+        for (const auto &[id, transformList] : instanceMap) {
+            namespace ranges             = std::ranges;
+            namespace rview              = ranges::views;
+            const auto    &model         = *ranges::find_if(models, [&](const auto &e) { return e.GetId() == id; });
             const Shader  &modelShader   = model.GetShader();
             const Texture &modelTexture  = model.GetTexture();
             const Mesh    &modelMesh     = model.GetMesh();
             const size_t   instanceCount = transformList.size();
             modelShader.Use();
 
-            for (const auto &[index, mat] : std::ranges::views::enumerate(transformList)) {
+            for (const auto &[index, mat] : rview::enumerate(transformList)) {
                 const std::string varName = "models[" + std::to_string(index) + "]";
                 modelShader.Set(varName, mat);
             }
