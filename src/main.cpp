@@ -115,9 +115,9 @@ int main(int argc, char **argv)
         }
 
         matRenderContext->ClearWithColor(0.2F, 0.3F, 0.3F);
-        std::map<BUFFER_HANDLE, std::list<Matrix4>> instanceMap;
+        std::map<u32, std::list<Matrix4>> instanceMap;
         for (const auto &model : models) {
-            std::list<Matrix4> &instanceMatrixList = instanceMap[model.GetMesh().GetBuffers().m_ebo];
+            std::list<Matrix4> &instanceMatrixList = instanceMap[model.GetId()];
             instanceMatrixList.push_back(model.GetTransform().GetModel());
         }
 

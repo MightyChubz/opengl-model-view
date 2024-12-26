@@ -7,7 +7,8 @@
 #include "Texture.hpp"
 
 Model::Model(Mesh &&mesh, Texture &&texture, Shader &&shader)
-    : m_mesh(std::move(mesh)), m_texture(std::move(texture)), m_shader(std::move(shader))
+    : m_mesh(std::move(mesh)), m_texture(std::move(texture)), m_shader(std::move(shader)),
+      m_modelId(mesh.GetBuffers().m_ebo)
 {
 }
 
